@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <app-header></app-header>
+
+  <ng-container *ngIf="isAuthorized">
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!isAuthorized">
+    <app-auth></app-auth>
+  </ng-container>
+  <app-message-box></app-message-box>
+</div>
