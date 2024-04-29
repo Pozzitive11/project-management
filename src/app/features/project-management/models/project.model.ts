@@ -20,3 +20,10 @@ export interface NewApp {
   Description: string
   ProjectId: number
 }
+
+export interface UpdateApp {
+  Name: string
+  Route: string
+  ShortDescription: string
+  Description: string
+}

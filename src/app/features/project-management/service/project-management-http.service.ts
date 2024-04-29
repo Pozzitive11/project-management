@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 
 import { Injectable, inject } from '@angular/core'
 import { environment } from 'src/environments/environment'
-import { App, NewApp, Project } from '../models/project.model'
+import { App, NewApp, Project, UpdateApp } from '../models/project.model'
 import { Observable } from 'rxjs'
 
 @Injectable({
@@ -39,5 +39,11 @@ export class ProjectManagementHttpService {
   }
   createApp(newApp: NewApp) {
     return this.http.post<App>(this.appUrl, newApp)
+  }
+  updateApp(appId: number, updateApp: UpdateApp) {
+    return this.http.patch(`${this.appUrl}/${appId}`, updateApp)
+  }
+  deleteApp(appId: number) {
+    return this.http.delete(`${this.appUrl}/${appId}`)
   }
 }

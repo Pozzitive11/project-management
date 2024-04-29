@@ -1,10 +1,12 @@
 <app-project-management-create-app></app-project-management-create-app>
 <div class="wrapper">
-  <ul class="mb-0 pt-3 pb-3 d-flex justify-content-evenly gap-5 fw-bold bg-light">
+  <ul class="mb-0 pt-3 pb-3 d-flex justify-content-evenly gap-3 fw-bold bg-light" style="    padding-left: 0;">
     <li class="list-unstyled" style="width: 190px">Назва</li>
     <li class="list-unstyled" style="width: 190px">Шлях</li>
     <li class="list-unstyled" style="width: 190px">Короткий опис</li>
-    <li class="list-unstyled" style="width: 190px">Проект</li>
+    <!-- <li class="list-unstyled" style="width: 190px">Проект</li> -->
+    <li class="list-unstyled" style="width: 190px">Редагувати</li>
+    <li class="list-unstyled" style="width: 190px">Видалити</li>
   </ul>
   <div class="accordion">
     <div *ngFor="let app of projectManagementAppService.apps$ |async" class="accordion-item">

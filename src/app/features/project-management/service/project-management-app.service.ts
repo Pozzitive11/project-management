@@ -1,5 +1,5 @@
 import { DestroyRef, Injectable, inject } from '@angular/core'
-import { App, NewApp } from '../models/project.model'
+import { App, NewApp, UpdateApp } from '../models/project.model'
 import { BehaviorSubject, Observable, from, tap } from 'rxjs'
 import { ProjectManagementHttpService } from './project-management-http.service'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
@@ -62,37 +62,42 @@ export class ProjectManagementAppService {
       .subscribe()
     this.modalService.dismissAll()
   }
-  // deleteProject(projectId: number) {
-  //   this.projectManagementHttpService
-  //     .deleteProject(projectId)
-  //     .pipe(takeUntilDestroyed(this.destroyRef))
-  //     .subscribe(() => {
-  //       this.filterProjects(projectId)
-  //     })
-  // }
-  // updateProject(projectId: number, projectName: string, projectDescription: string) {
-  //   this.projectManagementHttpService
-  //     .updateProject(projectId, projectName, projectDescription)
-  //     .pipe(takeUntilDestroyed(this.destroyRef))
-  //     .subscribe(() => {
-  //       this.updateProjectValues(projectId, projectName, projectDescription)
-  //     })
-  // }
-  // private updateProjectValues(projectId: number, projectName: string, projectDescription: string) {
-  //   const currentProjects = this._apps$.getValue()
-  //   const projectIndex = currentProjects.findIndex((project) => project.id === projectId)
-  //   if (projectIndex !== -1) {
-  //     const updatedProject = { ...currentProjects[projectIndex] }
-  //     updatedProject.Name = projectName
-  //     updatedProject.Description = projectDescription
-  //     const updatedProjects = [...currentProjects]
-  //     updatedProjects[projectIndex] = updatedProject
-  //     this._apps$.next(updatedProjects)
-  //   }
-  // }
-  // private filterProjects(projectId: number) {
-  //   const currentProjects = this._apps$.getValue()
-  //   const updatedProjects = currentProjects.filter((project) => project.id !== projectId)
-  //   this._apps$.next(updatedProjects)
-  // }
+  deleteApp(appId: number) {
+    this.projectManagementHttpService
+      .deleteApp(appId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.filterApps(appId)
+      })
+  }
+  updateApp(appId: number) {
+    const app: UpdateApp = {
+      Name: this.createAppName,
+      Route: this.createAppRoute,
+      ShortDescription: this.createAppShortDescription,
+      Description: this.createAppDescription
+    }
+    this.projectManagementHttpService
+      .updateApp(appId, app)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.updateAppValues(appId, app)
+      })
+  }
+  private updateAppValues(appId: number, updatedApp: UpdateApp) {
+    const currentApps = this._apps$.getValue()
+    const appIndex = currentApps.findIndex((app) => app.id === appId)
+
+    if (appIndex !== -1) {
+      const updatedApps = [...currentApps]
+      updatedApps[appIndex] = { ...updatedApps[appIndex], ...updatedApp }
+      this._apps$.next(updatedApps)
+    }
+  }
+
+  private filterApps(appId: number) {
+    const currentApps = this._apps$.getValue()
+    const updatedApps = currentApps.filter((app) => app.id !== appId)
+    this._apps$.next(updatedApps)
+  }
 }

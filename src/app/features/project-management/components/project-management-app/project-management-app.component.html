@@ -1,11 +1,84 @@
 <div class="accordion-header">
-  <button (click)="show(app.id)" [class.collapsed]="!isShow[app['id']]" class="accordion-button" type="button">
-    <ul class="position-absolute start-0 end-0 d-flex justify-content-evenly gap-5">
+  <button
+    (click)="show(app.id)"
+    [class.collapsed]="!isShow[app['id']]"
+    class="accordion-button d-flex justify-content-center align-items-center"
+    type="button"
+  >
+    <ul class="position-absolute start-0 end-0 d-flex justify-content-evenly align-items-center gap-3 m-0 p-0">
       <li class="list-unstyled" style="width: 190px">{{ app.Name }}</li>
       <li class="list-unstyled" style="width: 190px">{{ app.Route }}</li>
       <li class="list-unstyled" style="width: 190px">{{ app.ShortDescription }}</li>
-      <li class="list-unstyled" style="width: 190px">{{ app.Project }}</li>
+      <!-- <li class="list-unstyled" style="width: 190px">{{ app.Project }}</li> -->
+      <li class="list-unstyled" style="width: 190px">
+        <!-- <button class="btn"><i class="bi bi-arrow-repeat text-info h4"></i></button> -->
+        <app-project-management-modal [modalName]="'Оновити додаток'" [buttonName]="'Оновити додаток'">
+          <form>
+            <div class="form-group mb-3">
+              <label for="name">Назва додатку</label>
+              <input
+                [(ngModel)]="projectManagementAppService.createAppName"
+                type="text"
+                class="form-control"
+                id="name"
+                name="appName"
+                placeholder="Напишіть назву додатку"
+              />
+            </div>
+            <div class="form-group mb-3">
+              <label for="route">Шлях додатку</label>
+              <input
+                [(ngModel)]="projectManagementAppService.createAppRoute"
+                type="text"
+                class="form-control"
+                id="route"
+                name="appRoute"
+                placeholder="Напишіть шлях додатку"
+              />
+            </div>
+            <div class="form-group mb-3">
+              <label for="shortDescription">Короткий опис додатку</label>
+              <input
+                [(ngModel)]="projectManagementAppService.createAppShortDescription"
+                type="text"
+                class="form-control"
+                id="shortDescription"
+                name="appDescription"
+                placeholder="Напишіть короткий опис додатку"
+              />
+            </div>
+            <div class="form-group mb-3">
+              <label for="description">Опис додатку</label>
+              <textarea
+                [(ngModel)]="projectManagementAppService.createAppDescription"
+                class="form-control"
+                id="description"
+                name="appDescription"
+                placeholder="Напишіть опис додатку"
+              ></textarea>
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary"
+              [disabled]="
+                !projectManagementAppService.createAppName ||
+                !projectManagementAppService.createAppDescription ||
+                !projectManagementAppService.createAppShortDescription ||
+                !projectManagementAppService.createAppRoute
+              "
+              (click)="projectManagementAppService.createApp()"
+            >
+              Оновити додаток
+            </button>
+          </form>
+        </app-project-management-modal>
+      </li>
+      <li class="list-unstyled" style="width: 190px">
+        <button (click)="deleteApp()" class="btn btn-danger">Видалити додаток</button>
+      </li>
     </ul>
   </button>
-  <div [hidden]="!isShow[app['id']]" class="container mt-4"></div>
+  <div [hidden]="!isShow[app['id']]" class="container mt-4">
+    <p>{{ app.Description }}</p>
+  </div>
 </div>
