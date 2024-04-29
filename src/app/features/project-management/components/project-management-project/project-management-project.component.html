@@ -48,13 +48,13 @@
           </app-project-management-modal>
           <button
             (click)="getProjectApps()"
-            [disabled]="isDataLoaded"
+            [disabled]="projectManagementAppService.isDataLoaded"
             class="btn btn-outline-secondary"
             style="width: 150px"
           >
             Завантажити
           </button>
-          <div *ngIf="loader" class="spinner-grow text-primary" role="status">
+          <div *ngIf="projectManagementAppService.loader" class="spinner-grow text-primary" role="status">
             <span class="sr-only">Loading...</span>
           </div>
           <div
@@ -66,8 +66,8 @@
       </h2>
     </div>
 
-    <div class="mt-4" [hidden]="!showBody">
-      <app-project-management-apps-list [apps]="apps"></app-project-management-apps-list>
+    <div class="mt-2" [hidden]="!showBody">
+      <app-project-management-apps-list ></app-project-management-apps-list>
     </div>
   </div>
 </div>

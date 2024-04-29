@@ -12,3 +12,11 @@ export interface App {
   id: number
   Project: string
 }
+
+export interface NewApp {
+  Name: string
+  Route: string
+  ShortDescription: string
+  Description: string
+  ProjectId: number
+}

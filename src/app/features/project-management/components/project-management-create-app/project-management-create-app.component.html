@@ -1,0 +1,62 @@
+<div class="pb-2">
+  <app-project-management-modal [modalName]="'Створити додаток'" [buttonName]="'Створити додаток'">
+    <form>
+      <div class="form-group mb-3">
+        <label for="name">Назва додатку</label>
+        <input
+          [(ngModel)]="projectManagementAppService.createAppName"
+          type="text"
+          class="form-control"
+          id="name"
+          name="appName"
+          placeholder="Напишіть назву додатку"
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label for="route">Шлях додатку</label>
+        <input
+          [(ngModel)]="projectManagementAppService.createAppRoute"
+          type="text"
+          class="form-control"
+          id="route"
+          name="appRoute"
+          placeholder="Напишіть шлях додатку"
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label for="shortDescription">Короткий опис додатку</label>
+        <input
+          [(ngModel)]="projectManagementAppService.createAppShortDescription"
+          type="text"
+          class="form-control"
+          id="shortDescription"
+          name="appDescription"
+          placeholder="Напишіть короткий опис додатку"
+        />
+      </div>
+      <div class="form-group mb-3">
+        <label for="description">Опис додатку</label>
+        <textarea
+          [(ngModel)]="projectManagementAppService.createAppDescription"
+          class="form-control"
+          id="description"
+          name="appDescription"
+          placeholder="Напишіть опис додатку"
+        ></textarea>
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="
+          !projectManagementAppService.createAppName ||
+          !projectManagementAppService.createAppDescription ||
+          !projectManagementAppService.createAppShortDescription ||
+          !projectManagementAppService.createAppRoute
+        "
+        (click)="projectManagementAppService.createApp()"
+      >
+        Створити додаток
+      </button>
+    </form>
+  </app-project-management-modal>
+</div>

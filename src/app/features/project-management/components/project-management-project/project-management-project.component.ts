@@ -7,32 +7,33 @@ import { ProjectManagementHttpService } from '../../service/project-management-h
 import { ProjectManagementProjectService } from '../../service/project-management-project.service'
 import { ProjectManagementModalComponent } from '../project-management-modal/project-management-modal.component'
 import { ProjectManagementAppsListComponent } from '../project-management-apps-list/project-management-apps-list.component'
+import { ProjectManagementAppService } from '../../service/project-management-app.service'
 @Component({
   selector: 'app-project-management-project',
   standalone: true,
   imports: [CommonModule, ProjectManagementAppsListComponent, ProjectManagementModalComponent, FormsModule],
   templateUrl: './project-management-project.component.html',
-  styleUrl: './project-management-project.component.css'
+  styleUrl: './project-management-project.component.css',
+  providers: [ProjectManagementAppService]
 })
 export class ProjectManagementProjectComponent implements OnInit {
-  private projectManagementHttpService = inject(ProjectManagementHttpService)
   protected projectManagementProjectService = inject(ProjectManagementProjectService)
+  protected projectManagementAppService = inject(ProjectManagementAppService)
   private modalService = inject(NgbModal)
 
   @Input() project: Project
   apps: App[] = []
   showBody = false
-  isDataLoaded = false
+
   updateProjectName = ''
   updateProjectDescription = ''
-  loader = false
 
   ngOnInit(): void {
     this.setProjectValues()
   }
 
   toggleShow() {
-    if (this.isDataLoaded) {
+    if (this.projectManagementAppService.isDataLoaded) {
       this.showBody = !this.showBody
     }
   }
@@ -40,16 +41,6 @@ export class ProjectManagementProjectComponent implements OnInit {
   setProjectValues() {
     this.updateProjectName = this.project.Name
     this.updateProjectDescription = this.project.Description
-  }
-
-  getProjectApps() {
-    // this.loader = true
-    this.projectManagementHttpService.getAppsList(this.project.id).subscribe((data) => {
-      this.apps = data.apps
-      this.showBody = true
-      this.isDataLoaded = true
-      // this.loader = false
-    })
   }
 
   deleteProject() {
@@ -64,5 +55,10 @@ export class ProjectManagementProjectComponent implements OnInit {
     )
 
     this.modalService.dismissAll()
+  }
+  getProjectApps() {
+    this.showBody = true
+    // this.isDataLoaded = true
+    this.projectManagementAppService.setApps(this.project.id)
   }
 }

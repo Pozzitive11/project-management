@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 
 import { Injectable, inject } from '@angular/core'
 import { environment } from 'src/environments/environment'
-import { App, Project } from '../models/project.model'
+import { App, NewApp, Project } from '../models/project.model'
 import { Observable } from 'rxjs'
 
 @Injectable({
@@ -12,6 +12,7 @@ export class ProjectManagementHttpService {
   private http = inject(HttpClient)
 
   projectsUrl = (environment.BACKEND_URL || window.location.origin) + environment.API_BASE_URL + '/structure/project'
+  appUrl = (environment.BACKEND_URL || window.location.origin) + environment.API_BASE_URL + '/structure/app'
 
   // PROJECTS
   getProjectsList(): Observable<{ projects: Project[] }> {
@@ -35,5 +36,8 @@ export class ProjectManagementHttpService {
   // APPS
   getAppsList(projectId: number): Observable<{ apps: App[] }> {
     return this.http.get<{ apps: App[] }>(`${this.projectsUrl}/${projectId}/apps`)
+  }
+  createApp(newApp: NewApp) {
+    return this.http.post<App>(this.appUrl, newApp)
   }
 }
