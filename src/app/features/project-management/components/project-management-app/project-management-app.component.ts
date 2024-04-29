@@ -17,10 +17,10 @@ export class ProjectManagementAppComponent implements OnInit {
 
   @Input() app: App
   isShow: { [key: string]: boolean } = {}
-  createAppName = ''
-  createAppShortDescription = ''
-  createAppRoute = ''
-  createAppDescription = ''
+  updateAppName = ''
+  updateAppShortDescription = ''
+  updateAppRoute = ''
+  updateAppDescription = ''
   ngOnInit(): void {
     this.setAppValues()
   }
@@ -29,13 +29,23 @@ export class ProjectManagementAppComponent implements OnInit {
   }
 
   setAppValues() {
-    this.createAppName = this.app.Name
-    this.createAppDescription = this.app.Description
-    this.createAppShortDescription = this.app.ShortDescription
-    this.createAppRoute = this.app.Route
+    this.updateAppName = this.app.Name
+    this.updateAppDescription = this.app.Description
+    this.updateAppShortDescription = this.app.ShortDescription
+    this.updateAppRoute = this.app.Route
   }
 
   deleteApp() {
     this.projectManagementAppService.deleteApp(this.app.id)
+  }
+
+  updateApp() {
+    this.projectManagementAppService.updateApp(
+      this.app.id,
+      this.updateAppName,
+      this.updateAppDescription,
+      this.updateAppShortDescription,
+      this.updateAppRoute
+    )
   }
 }

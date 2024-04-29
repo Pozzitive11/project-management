@@ -70,12 +70,12 @@ export class ProjectManagementAppService {
         this.filterApps(appId)
       })
   }
-  updateApp(appId: number) {
+  updateApp(appId: number, appName: string, appDescription: string, appShortDescription: string, appRoute: string) {
     const app: UpdateApp = {
-      Name: this.createAppName,
-      Route: this.createAppRoute,
-      ShortDescription: this.createAppShortDescription,
-      Description: this.createAppDescription
+      Name: appName,
+      Route: appRoute,
+      ShortDescription: appShortDescription,
+      Description: appDescription
     }
     this.projectManagementHttpService
       .updateApp(appId, app)
@@ -83,6 +83,7 @@ export class ProjectManagementAppService {
       .subscribe(() => {
         this.updateAppValues(appId, app)
       })
+    this.modalService.dismissAll()
   }
   private updateAppValues(appId: number, updatedApp: UpdateApp) {
     const currentApps = this._apps$.getValue()

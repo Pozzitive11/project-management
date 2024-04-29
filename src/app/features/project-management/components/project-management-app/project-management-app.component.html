@@ -17,7 +17,7 @@
             <div class="form-group mb-3">
               <label for="name">Назва додатку</label>
               <input
-                [(ngModel)]="projectManagementAppService.createAppName"
+                [(ngModel)]="updateAppName"
                 type="text"
                 class="form-control"
                 id="name"
@@ -28,7 +28,7 @@
             <div class="form-group mb-3">
               <label for="route">Шлях додатку</label>
               <input
-                [(ngModel)]="projectManagementAppService.createAppRoute"
+                [(ngModel)]="updateAppRoute"
                 type="text"
                 class="form-control"
                 id="route"
@@ -39,7 +39,7 @@
             <div class="form-group mb-3">
               <label for="shortDescription">Короткий опис додатку</label>
               <input
-                [(ngModel)]="projectManagementAppService.createAppShortDescription"
+                [(ngModel)]="updateAppShortDescription"
                 type="text"
                 class="form-control"
                 id="shortDescription"
@@ -50,7 +50,7 @@
             <div class="form-group mb-3">
               <label for="description">Опис додатку</label>
               <textarea
-                [(ngModel)]="projectManagementAppService.createAppDescription"
+                [(ngModel)]="updateAppDescription"
                 class="form-control"
                 id="description"
                 name="appDescription"
@@ -61,12 +61,12 @@
               type="button"
               class="btn btn-primary"
               [disabled]="
-                !projectManagementAppService.createAppName ||
-                !projectManagementAppService.createAppDescription ||
-                !projectManagementAppService.createAppShortDescription ||
-                !projectManagementAppService.createAppRoute
+                !updateAppName ||
+                !updateAppDescription ||
+                !updateAppShortDescription ||
+                !updateAppRoute
               "
-              (click)="projectManagementAppService.createApp()"
+              (click)="updateApp()"
             >
               Оновити додаток
             </button>
