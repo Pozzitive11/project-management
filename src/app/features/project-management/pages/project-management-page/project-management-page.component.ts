@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { FormsModule } from '@angular/forms'
+import { ProjectManagementListComponent } from '../../components/project-management-list/project-management-list/project-management-list.component'
 
 @Component({
   selector: 'app-project-management-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ProjectManagementListComponent],
 
   templateUrl: './project-management-page.component.html',
   styleUrls: ['./project-management-page.component.css']

@@ -17,7 +17,7 @@ export class AuthService {
   user = new BehaviorSubject<User | null>(null)
   loadedUser: User | null = null
   private readonly url: string =
-    (environment.BACKEND_URL || window.location.origin) + environment.API_BASE_URL + environment.auth_api_url
+    ('http://10.11.33.10:8012' || window.location.origin) + environment.API_BASE_URL + environment.auth_api_url
 
   serverLogIn(form: FormData) {
     return this.http.post<AuthResponseData>(this.url + '/login', form)

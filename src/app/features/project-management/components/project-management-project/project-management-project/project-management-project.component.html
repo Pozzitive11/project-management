@@ -1,0 +1,71 @@
+<div class="accordion custom-accordion mb-4">
+  <div class="accordion-item custom-accordion-item">
+    <div class="accordion-header custom-accordion-header">
+      <h2
+        class="accordion-header d-flex justify-content-between align-items-center w-100 pointer"
+        (click)="toggleShow()"
+      >
+        <div class="d-block text-white bg-primary p-2 rounded custom-accordion-header">
+          {{ project.Name }}: {{ project.Description }}
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+          <button
+            (click)="deleteProject()"
+            class="btn btn-danger"
+            style="width: 150px"
+          >
+            Видалити
+          </button>
+          <app-project-management-modal [modalName]="'Оновити проект'" [buttonName]="'Оновити проект'">
+            <form>
+              <div class="form-group mb-3">
+                <label for="name">Назва проекту</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  aria-describedby="emailHelp"
+                  placeholder="Напишість назву проекту"
+                  [(ngModel)]="updateProjectName"
+                  name="projectName"
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label for="description">Опис проекту</label>
+                <input
+                  type="text"
+                  [(ngModel)]="updateProjectDescription"
+                  class="form-control"
+                  id="description"
+                   name="projectDescription"
+                  placeholder="Напишість опис проекту"
+                />
+              </div>
+              <button type="button" class="btn btn-primary"  (click)="updateProject()" >Оновити проект</button>
+            </form>
+          </app-project-management-modal>
+          <button
+            (click)="getProjectApps()"
+            class="btn btn-outline-secondary"
+            style="width: 150px"
+            [disabled]="apps.length > 0"
+          >
+            Завантажити
+          </button>
+
+          <div
+            class="accordion-button bg-transparent shadow-none"
+            style="width: auto"
+            [class.collapsed]="!showBody"
+          ></div>
+        </div>
+      </h2>
+    </div>
+
+    <div class="mt-4" [hidden]="!showBody">
+      <app-project-management-app [apps]="apps"></app-project-management-app>
+    </div>
+  </div>
+</div>
+

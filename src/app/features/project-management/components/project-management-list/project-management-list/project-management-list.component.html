@@ -1,0 +1,4 @@
+<app-project-management-create-project></app-project-management-create-project>
+<div *ngFor="let project of projectManagementProjectService.projects$ | async" class="mt-3">
+  <app-project-management-project [project]="project"></app-project-management-project>
+</div>
