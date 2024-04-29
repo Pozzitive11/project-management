@@ -19,10 +19,19 @@
         [(ngModel)]="projectManagementProjectService.createProjectDescription"
         class="form-control"
         id="description"
-         name="projectDescription"
+        name="projectDescription"
         placeholder="Напишість опис проекту"
       />
     </div>
-    <button type="button" class="btn btn-primary" (click)="projectManagementProjectService.createProject()" >Створити проект</button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="
+        !projectManagementProjectService.createProjectName || !projectManagementProjectService.createProjectDescription
+      "
+      (click)="projectManagementProjectService.createProject()"
+    >
+      Створити проект
+    </button>
   </form>
 </app-project-management-modal>

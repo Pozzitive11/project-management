@@ -10,13 +10,7 @@
         </div>
 
         <div class="d-flex align-items-center gap-3">
-          <button
-            (click)="deleteProject()"
-            class="btn btn-danger"
-            style="width: 150px"
-          >
-            Видалити
-          </button>
+          <button (click)="deleteProject()" class="btn btn-danger" style="width: 150px">Видалити</button>
           <app-project-management-modal [modalName]="'Оновити проект'" [buttonName]="'Оновити проект'">
             <form>
               <div class="form-group mb-3">
@@ -38,22 +32,31 @@
                   [(ngModel)]="updateProjectDescription"
                   class="form-control"
                   id="description"
-                   name="projectDescription"
+                  name="projectDescription"
                   placeholder="Напишість опис проекту"
                 />
               </div>
-              <button type="button" class="btn btn-primary"  (click)="updateProject()" >Оновити проект</button>
+              <button
+                type="button"
+                [disabled]="!updateProjectName || !updateProjectDescription"
+                class="btn btn-primary"
+                (click)="updateProject()"
+              >
+                Оновити проект
+              </button>
             </form>
           </app-project-management-modal>
           <button
             (click)="getProjectApps()"
+            [disabled]="isDataLoaded"
             class="btn btn-outline-secondary"
             style="width: 150px"
-            [disabled]="apps.length > 0"
           >
             Завантажити
           </button>
-
+          <div *ngIf="loader" class="spinner-grow text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
           <div
             class="accordion-button bg-transparent shadow-none"
             style="width: auto"
@@ -68,4 +71,3 @@
     </div>
   </div>
 </div>
-
