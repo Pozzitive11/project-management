@@ -11,7 +11,6 @@ import { ProjectManagementAppService } from '../../service/project-management-ap
   templateUrl: './project-management-apps-list.component.html',
   styleUrl: './project-management-apps-list.component.css'
 })
-export class ProjectManagementAppsListComponent implements OnInit {
+export class ProjectManagementAppsListComponent {
   protected projectManagementAppService = inject(ProjectManagementAppService)
-  ngOnInit(): void {}
 }

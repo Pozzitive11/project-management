@@ -10,9 +10,11 @@
     <li class="list-unstyled" style="width: 190px">Видалити</li>
   </ul>
   <div class="accordion">
-    <div *ngFor="let app of projectManagementAppService.apps$ | async" class="accordion-item">
+    @for (app of projectManagementAppService.apps$ | async;track app.id) {
+    <div class="accordion-item">
       <app-project-management-app [app]="app"></app-project-management-app>
     </div>
+    }
   </div>
 </div>
 } @else {
