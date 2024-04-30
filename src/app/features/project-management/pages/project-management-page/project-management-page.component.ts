@@ -7,7 +7,6 @@ import { ProjectManagementProjectsListComponent } from '../../components/project
   selector: 'app-project-management-page',
   standalone: true,
   imports: [CommonModule, ProjectManagementProjectsListComponent, ProjectManagementCreateProjectComponent],
-
   templateUrl: './project-management-page.component.html',
   styleUrls: ['./project-management-page.component.css']
 })

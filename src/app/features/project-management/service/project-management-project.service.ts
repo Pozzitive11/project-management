@@ -1,9 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http'
-
 import { DestroyRef, Injectable, inject } from '@angular/core'
-import { environment } from 'src/environments/environment'
-import { App, Project } from '../models/project.model'
-import { BehaviorSubject, Observable, from, tap } from 'rxjs'
+import { Project } from '../models/project.model'
+import { BehaviorSubject, from, tap } from 'rxjs'
 import { ProjectManagementHttpService } from './project-management-http.service'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
