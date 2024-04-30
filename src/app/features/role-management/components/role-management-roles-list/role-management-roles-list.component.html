@@ -10,6 +10,6 @@
     </ng-select>
   </div>
 </div>
-@if (roleManagementRoleService.role) {
-<app-role-management-role></app-role-management-role>
+@if (roleManagementRoleService.role$ | async) {
+<app-role-management-role [role]="roleManagementRoleService.role$ | async"></app-role-management-role>
 }

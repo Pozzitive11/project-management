@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    <h5 class="card-title">{{ roleManagementRoleService.role?.Name }}</h5>
+    <h5 class="card-title">{{ role?.Name }}</h5>
     <div class="d-flex align-items-center gap-3">
       <app-modal [buttonName]="'Оновити роль'" [modalName]="'Оновити роль'">
         <div class="form-group mb-3">
@@ -19,6 +19,18 @@
         </button>
       </app-modal>
       <button class="btn btn-danger" (click)="deleteRole()">Видалити роль</button>
+      <app-modal [buttonName]="'Додати дозволи'" [modalName]="'Додати дозволи'">
+        <ng-select
+        [items]="roleManagementRoleService.roles$ | async"
+        bindLabel="Name"
+        placeholder="Оберіть роль"
+        [(ngModel)]="roleManagementRoleService.selectedRole"
+      >
+      </ng-select>
+        <button type="button" class="btn btn-primary" [disabled]="" (click)="updateRole()">
+          Додати дозволи
+        </button>
+      </app-modal>
     </div>
   </div>
   <div class="card-body">

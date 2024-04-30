@@ -18,7 +18,6 @@ export class RoleManagementRoleService {
   role$ = from(this._role$)
   selectedRole: Role | null
 
-  role: Role | null
   rolePermissionsGroups: { [key: string]: Permission[] } = {}
   createRoleName = ''
   setRoles() {
@@ -40,6 +39,7 @@ export class RoleManagementRoleService {
             const currentRoles = this._roles$.getValue()
             const updatedProjects = [...currentRoles, data]
             this._roles$.next(updatedProjects)
+            this.createRoleName = ''
           }
         })
       )
@@ -56,34 +56,34 @@ export class RoleManagementRoleService {
           if (data.permissions) {
             this.rolePermissionsGroups = this.groupPermissionsByApp(data.permissions)
           }
-          this.role = data
+          this._role$.next(data)
         })
     }
   }
 
   deleteRole() {
-    if (this.role) {
+    if (this._role$.value) {
       this.roleManagementHttpService
-        .deleteRole(this.role.id)
+        .deleteRole(this._role$.value.id)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => {
-          if (this.role) {
-            this.filterRoles(this.role.id)
+          if (this._role$.value) {
+            this.filterRoles(this._role$.value.id)
             this.selectedRole = null
-            this.role = null
+            this._role$.next(null)
           }
         })
     }
   }
   updateRole(roleName: string) {
-    if (this.role) {
+    if (this._role$.value) {
       this.roleManagementHttpService
-        .updateRole(this.role.id, roleName)
-        .pipe()
+        .updateRole(this._role$.value.id, roleName)
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((data) => {
           this.updateProjectValues(data.id, data.Name)
           this.selectedRole = { Name: data.Name, id: data.id }
-          this.role = { Name: data.Name, id: data.id, permissions: data.permissions }
+          this._role$.next(data)
         })
     }
   }

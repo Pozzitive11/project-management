@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 
 import { Injectable, inject } from '@angular/core'
 import { environment } from 'src/environments/environment'
-import { Role } from '../models/role.model'
+import { Permission, Role } from '../models/role.model'
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +27,9 @@ export class RoleManagementHttpService {
   }
   updateRole(roleId: number, roleName: string) {
     return this.http.patch<Role>(`${this.roleUrl}/${roleId}`, { Name: roleName })
+  }
+  // PERMISSION
+  getPermissionByApp(roleId: number, appId: number) {
+    return this.http.get<{ permissions: Permission[] }>(`${this.roleUrl}/${roleId}/permissions/${appId}`)
   }
 }
