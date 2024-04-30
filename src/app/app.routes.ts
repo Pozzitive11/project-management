@@ -14,6 +14,10 @@ export const appRoutes: Routes = [
       import('./features/project-management/project-management.routes').then((m) => m.projectManagementRoutes)
   },
   {
+    path: 'user-management',
+    loadChildren: () => import('./features/user-management/user-management.routes').then((m) => m.userManagementRoutes)
+  },
+  {
     path: '**',
     loadComponent: () => import('./shared/components/page-404/page404.component').then((m) => m.Page404Component),
     title: 'Сторінка не знайдена'

@@ -1,7 +1,7 @@
 <div class="accordion-header">
   <button
-    (click)="show(app.id)"
-    [class.collapsed]="!isShow[app['id']]"
+    (click)="toggleShow()"
+    [class.collapsed]="!showBody"
     class="accordion-button d-flex justify-content-center align-items-center"
     type="button"
   >
@@ -11,7 +11,6 @@
       <li class="list-unstyled" style="width: 190px">{{ app.ShortDescription }}</li>
       <!-- <li class="list-unstyled" style="width: 190px">{{ app.Project }}</li> -->
       <li class="list-unstyled" style="width: 190px">
-        <!-- <button class="btn"><i class="bi bi-arrow-repeat text-info h4"></i></button> -->
         <app-project-management-modal [modalName]="'Оновити додаток'" [buttonName]="'Оновити додаток'">
           <form>
             <div class="form-group mb-3">
@@ -78,7 +77,7 @@
       </li>
     </ul>
   </button>
-  <div [hidden]="!isShow[app['id']]" class="mt-4" style="margin-left: 50px;">
+  <div [hidden]="!showBody" class="mt-4" style="margin-left: 50px;">
     <p><b>Опис: </b>{{ app.Description }}</p>
   </div>
 </div>

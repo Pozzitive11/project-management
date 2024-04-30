@@ -16,7 +16,7 @@ export class ProjectManagementAppComponent implements OnInit {
   protected projectManagementAppService = inject(ProjectManagementAppService)
 
   @Input() app: App
-  isShow: { [key: string]: boolean } = {}
+  showBody = false
   updateAppName = ''
   updateAppShortDescription = ''
   updateAppRoute = ''
@@ -24,8 +24,8 @@ export class ProjectManagementAppComponent implements OnInit {
   ngOnInit(): void {
     this.setAppValues()
   }
-  show(entryId: number) {
-    this.isShow[entryId] = !this.isShow[entryId]
+  toggleShow() {
+    this.showBody = !this.showBody
   }
 
   setAppValues() {

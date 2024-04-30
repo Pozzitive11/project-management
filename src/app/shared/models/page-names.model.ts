@@ -1,4 +1,5 @@
 export const pageNamesModel = {
   main: 'Головна',
-  reqCheck: 'Керування проектами'
+  projectManagement: 'Керування проектами',
+  userManagement: 'Керування користувачами'
 }
