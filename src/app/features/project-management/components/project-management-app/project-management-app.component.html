@@ -11,7 +11,7 @@
       <li class="list-unstyled" style="width: 190px">{{ app.ShortDescription }}</li>
       <!-- <li class="list-unstyled" style="width: 190px">{{ app.Project }}</li> -->
       <li class="list-unstyled" style="width: 190px">
-        <app-project-management-modal [modalName]="'Оновити додаток'" [buttonName]="'Оновити додаток'">
+        <app-modal [modalName]="'Оновити додаток'" [buttonName]="'Оновити додаток'">
           <form>
             <div class="form-group mb-3">
               <label for="name">Назва додатку</label>
@@ -70,7 +70,7 @@
               Оновити додаток
             </button>
           </form>
-        </app-project-management-modal>
+        </app-modal>
       </li>
       <li class="list-unstyled" style="width: 190px">
         <button (click)="deleteApp()" class="btn btn-danger">Видалити додаток</button>

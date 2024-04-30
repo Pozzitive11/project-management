@@ -1,1 +1,15 @@
-<p>role-management-roles-list works!</p>
+<div class="row mb-4">
+  <div class="col-12">
+    <ng-select
+      [items]="roleManagementRoleService.roles$ | async"
+      bindLabel="Name"
+      placeholder="Оберіть роль"
+      [(ngModel)]="roleManagementRoleService.selectedRole"
+      (change)="roleSelection()"
+    >
+    </ng-select>
+  </div>
+</div>
+@if (roleManagementRoleService.role) {
+<app-role-management-role></app-role-management-role>
+}

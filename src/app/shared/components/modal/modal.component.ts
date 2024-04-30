@@ -2,13 +2,13 @@ import { Component, Input, TemplateRef, inject } from '@angular/core'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
-  selector: 'app-project-management-modal',
+  selector: 'app-modal',
   standalone: true,
   imports: [],
-  templateUrl: './project-management-modal.component.html',
-  styleUrl: './project-management-modal.component.css'
+  templateUrl: './modal.component.html',
+  styleUrl: './modal.component.css'
 })
-export class ProjectManagementModalComponent {
+export class ModalComponent {
   @Input() buttonName: string
   @Input() modalName: string
   private modalService = inject(NgbModal)

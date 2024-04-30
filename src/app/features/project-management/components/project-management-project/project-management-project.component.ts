@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { App, Project } from '../../models/project.model'
 import { ProjectManagementProjectService } from '../../services/project-management-project.service'
-import { ProjectManagementModalComponent } from '../project-management-modal/project-management-modal.component'
 import { ProjectManagementAppsListComponent } from '../project-management-apps-list/project-management-apps-list.component'
 import { ProjectManagementAppService } from '../../services/project-management-app.service'
+import { ModalComponent } from 'src/app/shared/components/modal/modal.component'
 @Component({
   selector: 'app-project-management-project',
   standalone: true,
-  imports: [CommonModule, FormsModule, ProjectManagementAppsListComponent, ProjectManagementModalComponent],
+  imports: [CommonModule, FormsModule, ProjectManagementAppsListComponent, ModalComponent],
   templateUrl: './project-management-project.component.html',
   styleUrl: './project-management-project.component.css',
   providers: [ProjectManagementAppService]

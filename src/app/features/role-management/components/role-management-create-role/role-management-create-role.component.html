@@ -1,1 +1,18 @@
-<p>role-management-create-role works!</p>
+<div class="pb-4">
+  <app-modal [buttonName]="'Сторити роль'" [modalName]="'Створити роль'">
+    <div class="form-group mb-3">
+      <label for="name">Назва ролі</label>
+      <input
+        [(ngModel)]="roleManagementRoleService.createRoleName"
+        type="text"
+        class="form-control"
+        id="name"
+        name="roleName"
+        placeholder="Напишіть назву ролі"
+      />
+    </div>
+    <button type="button" class="btn btn-primary" [disabled]="" (click)="roleManagementRoleService.createRole()">
+      Створити роль
+    </button>
+  </app-modal>
+</div>

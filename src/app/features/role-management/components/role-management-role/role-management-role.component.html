@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">{{ roleManagementRoleService.role?.Name }}</h5>
+    <div class="d-flex align-items-center gap-3">
+      <app-modal [buttonName]="'Оновити роль'" [modalName]="'Оновити роль'">
+        <div class="form-group mb-3">
+          <label for="name">Назва ролі</label>
+          <input
+            [(ngModel)]="updateRoleName"
+            type="text"
+            class="form-control"
+            id="name"
+            name="roleName"
+            placeholder="Напишіть назву ролі"
+          />
+        </div>
+        <button type="button" class="btn btn-primary" [disabled]="" (click)="updateRole()">
+          Оновити роль
+        </button>
+      </app-modal>
+      <button class="btn btn-danger" (click)="deleteRole()">Видалити роль</button>
+    </div>
+  </div>
+  <div class="card-body">
+    <!-- @if (roleManagementRoleService.rolePermissionsGroups) { -->
+    <div *ngFor="let app of roleManagementRoleService.rolePermissionsGroups | keyvalue">
+      <div class="mt-4">
+        <h4>Додаток: {{ app.key }}</h4>
+        <h5>Дозволи:</h5>
+        <ul>
+          <li *ngFor="let permission of app.value">{{ permission.Action }}</li>
+        </ul>
+      </div>
+    </div>
+    <!-- } @else { -->
+    <!-- <div class="alert alert-secondary text-center">Дозволи відсутні</div> -->
+    <!-- } -->
+  </div>
+</div>

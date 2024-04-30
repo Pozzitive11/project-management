@@ -18,7 +18,7 @@
           >
             Завантажити
           </button>
-          <app-project-management-modal [modalName]="'Оновити проект'" [buttonName]="'Оновити '">
+          <app-modal [modalName]="'Оновити проект'" [buttonName]="'Оновити '">
             <form>
               <div class="form-group mb-3">
                 <label for="name">Назва проекту</label>
@@ -52,7 +52,7 @@
                 Оновити проект
               </button>
             </form>
-          </app-project-management-modal>
+          </app-modal>
           <button (click)="deleteProject()" class="btn btn-danger" style="width: 150px">Видалити</button>
 
           <div *ngIf="projectManagementAppService.loader" class="spinner-grow text-primary" role="status">

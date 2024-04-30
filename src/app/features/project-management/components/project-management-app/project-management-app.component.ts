@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common'
 import { App } from '../../models/project.model'
 import { ProjectManagementAppService } from '../../services/project-management-app.service'
 import { FormsModule } from '@angular/forms'
-import { ProjectManagementModalComponent } from '../project-management-modal/project-management-modal.component'
+import { ModalComponent } from 'src/app/shared/components/modal/modal.component'
 
 @Component({
   selector: 'app-project-management-app',
   standalone: true,
-  imports: [CommonModule, FormsModule, ProjectManagementModalComponent],
+  imports: [CommonModule, FormsModule, ModalComponent],
   templateUrl: './project-management-app.component.html',
   styleUrl: './project-management-app.component.css'
 })
