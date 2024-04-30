@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
 import { ProjectManagementAppComponent } from '../project-management-app/project-management-app.component'
 import { ProjectManagementCreateAppComponent } from '../project-management-create-app/project-management-create-app.component'
-import { ProjectManagementAppService } from '../../service/project-management-app.service'
+import { ProjectManagementAppService } from '../../services/project-management-app.service'
 
 @Component({
   selector: 'app-project-management-apps-list',

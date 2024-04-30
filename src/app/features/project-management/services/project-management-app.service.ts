@@ -5,9 +5,9 @@ import { ProjectManagementHttpService } from './project-management-http.service'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 
-@Injectable({
-  providedIn: 'root'
-})
+// @Injectable({
+//   providedIn: 'root'
+// })
 export class ProjectManagementAppService {
   private projectManagementHttpService = inject(ProjectManagementHttpService)
   private destroyRef = inject(DestroyRef)

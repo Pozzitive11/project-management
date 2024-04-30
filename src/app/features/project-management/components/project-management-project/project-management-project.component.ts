@@ -3,16 +3,17 @@ import { Component, Input, OnInit, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { App, Project } from '../../models/project.model'
-import { ProjectManagementProjectService } from '../../service/project-management-project.service'
+import { ProjectManagementProjectService } from '../../services/project-management-project.service'
 import { ProjectManagementModalComponent } from '../project-management-modal/project-management-modal.component'
 import { ProjectManagementAppsListComponent } from '../project-management-apps-list/project-management-apps-list.component'
-import { ProjectManagementAppService } from '../../service/project-management-app.service'
+import { ProjectManagementAppService } from '../../services/project-management-app.service'
 @Component({
   selector: 'app-project-management-project',
   standalone: true,
   imports: [CommonModule, FormsModule, ProjectManagementAppsListComponent, ProjectManagementModalComponent],
   templateUrl: './project-management-project.component.html',
-  styleUrl: './project-management-project.component.css'
+  styleUrl: './project-management-project.component.css',
+  providers: [ProjectManagementAppService]
 })
 export class ProjectManagementProjectComponent implements OnInit {
   protected projectManagementProjectService = inject(ProjectManagementProjectService)

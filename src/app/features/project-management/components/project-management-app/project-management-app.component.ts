@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { App } from '../../models/project.model'
-import { ProjectManagementAppService } from '../../service/project-management-app.service'
+import { ProjectManagementAppService } from '../../services/project-management-app.service'
 import { FormsModule } from '@angular/forms'
 import { ProjectManagementModalComponent } from '../project-management-modal/project-management-modal.component'
 

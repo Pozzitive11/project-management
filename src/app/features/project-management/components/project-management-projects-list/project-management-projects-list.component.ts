@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { ProjectManagementProjectComponent } from '../project-management-project/project-management-project.component'
-import { ProjectManagementProjectService } from '../../service/project-management-project.service'
+import { ProjectManagementProjectService } from '../../services/project-management-project.service'
 @Component({
   selector: 'app-project-management-projects-list',
   standalone: true,
