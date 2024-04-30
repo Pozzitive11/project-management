@@ -5,7 +5,7 @@ export const userManagementRoutes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
-    title: 'Керування проектами',
+    title: 'Керування користувачами',
     loadComponent: () =>
       import('./pages/user-management-page/user-management-page.component').then((m) => m.UserManagementPageComponent)
   }
