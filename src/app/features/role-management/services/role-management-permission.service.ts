@@ -55,8 +55,7 @@ export class RoleManagementPermissionService {
         .subscribe(() => {
           this.roleManagementRoleService.getRole()
         })
-      this.selectedApp = null
-      this.selectedPermission = null
+      this.clearAddPermissionModalValues()
       this.modalService.dismissAll()
     }
   }
@@ -77,5 +76,10 @@ export class RoleManagementPermissionService {
       .subscribe((data) => {
         this.permissionsByRole = data.permissions
       })
+  }
+
+  clearAddPermissionModalValues() {
+    this.selectedApp = null
+    this.selectedPermission = null
   }
 }

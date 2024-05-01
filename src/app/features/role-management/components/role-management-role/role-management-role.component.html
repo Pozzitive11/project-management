@@ -21,7 +21,7 @@
   </div>
   <div class="card-body">
     <div class="d-flex align-items-center gap-3">
-      <app-modal [buttonName]="'Додати дозволи'" [modalName]="'Додати дозволи'" [buttonClasses]="'btn-outline-primary'">
+      <app-modal [buttonName]="'Додати дозволи'" [modalName]="'Додати дозволи'" [buttonClasses]="'btn-outline-primary'" (modalClosed)="roleManagementPermissionService.clearAddPermissionModalValues()">
         <div class="mb-4">
           <ng-select
             [items]="roleManagementPermissionService.apps"

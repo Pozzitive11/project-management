@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, Input, TemplateRef, inject } from '@angular/core'
+import { Component, EventEmitter, Input, Output, TemplateRef, inject } from '@angular/core'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
@@ -15,18 +15,22 @@ export class ModalComponent {
   @Input() buttonClasses: string
   private modalService = inject(NgbModal)
   closeResult = ''
-
+  @Output() modalClosed = new EventEmitter<void>()
   open(content: TemplateRef<any>) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`
+        this.closeModal()
       },
       (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
+        this.closeModal()
       }
     )
   }
-
+  private closeModal() {
+    this.modalClosed.emit()
+  }
   private getDismissReason(reason: any): string {
     switch (reason) {
       case ModalDismissReasons.ESC:
