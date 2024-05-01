@@ -39,6 +39,7 @@
             placeholder="Оберіть дозволи"
             [(ngModel)]="roleManagementPermissionService.selectedPermission"
             [disabled]="!isAppSelected"
+            [multiple]="true"
           >
           </ng-select>
         </div>
@@ -48,7 +49,7 @@
           [disabled]="
             !roleManagementPermissionService.selectedPermission || !roleManagementPermissionService.selectedApp
           "
-          (click)="updateRolePermissions()"
+          (click)="addRolePermissions()"
         >
           Додати дозволи
         </button>
@@ -57,6 +58,7 @@
         [buttonName]="'Видалити дозволи'"
         [modalName]="'Видалити дозволи'"
         [buttonClasses]="'btn-danger'"
+        (modalClosed)="roleManagementPermissionService.clearAddPermissionModalValues()"
       >
         <div class="mb-4">
           <ng-select
@@ -74,7 +76,7 @@
             bindLabel="Action"
             placeholder="Оберіть дозволи"
             [(ngModel)]="roleManagementPermissionService.selectedPermission"
-            [disabled]="!isAppSelected"
+            [disabled]="!(roleManagementPermissionService.permission$ | async)"
           >
           </ng-select>
         </div>

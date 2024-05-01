@@ -43,10 +43,10 @@ export class RoleManagementHttpService {
   getPermissionByRole(roleId: number) {
     return this.http.get<{ permissions: Permission[] }>(`${this.roleUrl}/${roleId}/permissions`)
   }
-  updateRolePermissions(roleId: number, permissionId: number) {
+  addRolePermissions(roleId: number, permissionIds: number[]) {
     return this.http.post(this.permissionUrl, {
       RoleId: roleId,
-      PermissionId: permissionId
+      PermissionIds: permissionIds
     })
   }
   deleteRolePermissions(roleId: number, permissionId: number) {

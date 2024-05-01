@@ -55,9 +55,9 @@ export class RoleManagementRoleComponent implements OnInit, OnChanges {
       this.roleManagementPermissionService.setPermissionByApp(this.role.id)
     }
   }
-  updateRolePermissions() {
+  addRolePermissions() {
     if (this.role) {
-      this.roleManagementPermissionService.updatePermission(this.role.id)
+      this.roleManagementPermissionService.addRolePermissions(this.role.id)
     }
     this.isAppSelected = false
   }

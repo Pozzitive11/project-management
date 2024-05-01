@@ -24,7 +24,7 @@ export class RoleManagementPermissionService {
 
   permissionsByRole: Permission[] | null = null
 
-  selectedPermission: Permission | null = null
+  selectedPermission: Permission[] | null = null
   selectedApp: App | null = null
   apps: App[]
   setPermissionByApp(roleId: number) {
@@ -47,10 +47,11 @@ export class RoleManagementPermissionService {
       })
   }
 
-  updatePermission(roleId: number) {
-    if (this.selectedPermission) {
+  addRolePermissions(roleId: number) {
+    const selectedPermissionIds = this.selectedPermission?.map((permission) => permission.id)
+    if (selectedPermissionIds) {
       this.roleManagementHttpService
-        .updateRolePermissions(roleId, this.selectedPermission.id)
+        .addRolePermissions(roleId, selectedPermissionIds)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => {
           this.roleManagementRoleService.getRole()
@@ -60,14 +61,14 @@ export class RoleManagementPermissionService {
     }
   }
   deletePermission(roleId: number) {
-    if (this.selectedPermission) {
-      this.roleManagementHttpService
-        .deleteRolePermissions(roleId, this.selectedPermission.id)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(() => {
-          this.roleManagementRoleService.getRole()
-        })
-    }
+    // if (this.selectedPermission) {
+    //   this.roleManagementHttpService
+    //     .deleteRolePermissions(roleId, this.selectedPermission.id)
+    //     .pipe(takeUntilDestroyed(this.destroyRef))
+    //     .subscribe(() => {
+    //       this.roleManagementRoleService.getRole()
+    //     })
+    // }
   }
   setPermissionsByRole(roleId: number) {
     this.roleManagementHttpService
