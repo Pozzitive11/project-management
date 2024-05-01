@@ -13,4 +13,10 @@ import { ModalComponent } from 'src/app/shared/components/modal/modal.component'
 })
 export class ProjectManagementCreateAppComponent {
   protected projectManagementAppService = inject(ProjectManagementAppService)
+  clearValues() {
+    this.projectManagementAppService.createAppName = ''
+    this.projectManagementAppService.createAppRoute = ''
+    this.projectManagementAppService.createAppShortDescription = ''
+    this.projectManagementAppService.createAppDescription = ''
+  }
 }

@@ -1,5 +1,5 @@
 <div class="pb-4">
-  <app-modal [buttonName]="'Сторити роль'" [modalName]="'Створити роль'" [buttonClasses]="'btn-outline-primary'">
+  <app-modal [buttonName]="'Сторити роль'" [modalName]="'Створити роль'" [buttonClasses]="'btn-outline-primary'" (modalClosed)="clearValue()">
     <div class="form-group mb-3">
       <label for="name">Назва ролі</label>
       <input

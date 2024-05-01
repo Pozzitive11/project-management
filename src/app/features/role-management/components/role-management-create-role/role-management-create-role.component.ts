@@ -12,4 +12,7 @@ import { FormsModule } from '@angular/forms'
 })
 export class RoleManagementCreateRoleComponent {
   protected roleManagementRoleService = inject(RoleManagementRoleService)
+  clearValue() {
+    this.roleManagementRoleService.createRoleName = ''
+  }
 }
