@@ -11,4 +11,4 @@
   </div> -->
 </ng-template>
 
-<button type="button" style="min-width: 150px;" class="btn btn-outline-primary d-flex justify-content-center align-items-center" (click)="open(content)">{{ buttonName }}</button>
+<button type="button" style="min-width: 150px;" [ngClass]="buttonClasses"  class="btn d-flex justify-content-center align-items-center" (click)="open(content)">{{ buttonName }}</button>

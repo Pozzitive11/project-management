@@ -1,16 +1,18 @@
+import { CommonModule } from '@angular/common'
 import { Component, Input, TemplateRef, inject } from '@angular/core'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.css'
 })
 export class ModalComponent {
   @Input() buttonName: string
   @Input() modalName: string
+  @Input() buttonClasses: string
   private modalService = inject(NgbModal)
   closeResult = ''
 

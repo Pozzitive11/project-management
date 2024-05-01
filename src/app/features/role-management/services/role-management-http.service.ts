@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core'
 import { environment } from 'src/environments/environment'
 import { Permission, Role } from '../models/role.model'
+import { App } from '../../project-management/models/project.model'
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,14 @@ export class RoleManagementHttpService {
   private http = inject(HttpClient)
 
   roleUrl = (environment.BACKEND_URL || window.location.origin) + environment.API_BASE_URL + '/structure/role'
+  appUrl = (environment.BACKEND_URL || window.location.origin) + environment.API_BASE_URL + '/structure/app'
+  permissionUrl =
+    (environment.BACKEND_URL || window.location.origin) + environment.API_BASE_URL + '/structure/permission/perm_role'
 
+  // APP
+  getAppsList() {
+    return this.http.get<{ apps: App[] }>(this.appUrl)
+  }
   // ROLE
   getRolesList() {
     return this.http.get<{ roles: Role[] }>(this.roleUrl)
@@ -31,5 +39,18 @@ export class RoleManagementHttpService {
   // PERMISSION
   getPermissionByApp(roleId: number, appId: number) {
     return this.http.get<{ permissions: Permission[] }>(`${this.roleUrl}/${roleId}/permissions/${appId}`)
+  }
+  getPermissionByRole(roleId: number) {
+    return this.http.get<{ permissions: Permission[] }>(`${this.roleUrl}/${roleId}/permissions`)
+  }
+  updateRolePermissions(roleId: number, permissionId: number) {
+    return this.http.post(this.permissionUrl, {
+      RoleId: roleId,
+      PermissionId: permissionId
+    })
+  }
+  deleteRolePermissions(roleId: number, permissionId: number) {
+    const params = { RoleId: roleId, PermissionId: permissionId }
+    return this.http.delete(this.permissionUrl, { params })
   }
 }

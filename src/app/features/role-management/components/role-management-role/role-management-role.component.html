@@ -2,7 +2,7 @@
   <div class="card-header">
     <h5 class="card-title">{{ role?.Name }}</h5>
     <div class="d-flex align-items-center gap-3">
-      <app-modal [buttonName]="'Оновити роль'" [modalName]="'Оновити роль'">
+      <app-modal [buttonName]="'Оновити роль'" [modalName]="'Оновити роль'" [buttonClasses]="'btn-outline-info'">
         <div class="form-group mb-3">
           <label for="name">Назва ролі</label>
           <input
@@ -14,26 +14,83 @@
             placeholder="Напишіть назву ролі"
           />
         </div>
-        <button type="button" class="btn btn-primary" [disabled]="" (click)="updateRole()">
-          Оновити роль
-        </button>
+        <button type="button" class="btn btn-primary" [disabled]="" (click)="updateRole()">Оновити роль</button>
       </app-modal>
       <button class="btn btn-danger" (click)="deleteRole()">Видалити роль</button>
-      <app-modal [buttonName]="'Додати дозволи'" [modalName]="'Додати дозволи'">
-        <ng-select
-        [items]="roleManagementRoleService.roles$ | async"
-        bindLabel="Name"
-        placeholder="Оберіть роль"
-        [(ngModel)]="roleManagementRoleService.selectedRole"
-      >
-      </ng-select>
-        <button type="button" class="btn btn-primary" [disabled]="" (click)="updateRole()">
-          Додати дозволи
-        </button>
-      </app-modal>
     </div>
   </div>
   <div class="card-body">
+    <div class="d-flex align-items-center gap-3">
+      <app-modal [buttonName]="'Додати дозволи'" [modalName]="'Додати дозволи'" [buttonClasses]="'btn-outline-primary'">
+        <div class="mb-4">
+          <ng-select
+            [items]="roleManagementPermissionService.apps"
+            bindLabel="Name"
+            placeholder="Оберіть додаток"
+            [(ngModel)]="roleManagementPermissionService.selectedApp"
+            (change)="getSelectedApp()"
+          >
+          </ng-select>
+        </div>
+        <div class="mb-4">
+          <ng-select
+            [items]="roleManagementPermissionService.permission$ | async"
+            bindLabel="Action"
+            placeholder="Оберіть дозволи"
+            [(ngModel)]="roleManagementPermissionService.selectedPermission"
+            [disabled]="!isAppSelected"
+          >
+          </ng-select>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="
+            !roleManagementPermissionService.selectedPermission || !roleManagementPermissionService.selectedApp
+          "
+          (click)="updateRolePermissions()"
+        >
+          Додати дозволи
+        </button>
+      </app-modal>
+      <app-modal
+        [buttonName]="'Видалити дозволи'"
+        [modalName]="'Видалити дозволи'"
+        [buttonClasses]="'btn-danger'"
+      >
+        <div class="mb-4">
+          <ng-select
+            [items]="roleManagementPermissionService.permissionsByRole"
+            bindLabel="App"
+            placeholder="Оберіть додаток"
+            [(ngModel)]="roleManagementPermissionService.selectedApp"
+            (change)="getSelectedApp()"
+          >
+          </ng-select>
+        </div>
+        <div class="mb-4">
+          <ng-select
+            [items]="roleManagementPermissionService.permission$ | async"
+            bindLabel="Action"
+            placeholder="Оберіть дозволи"
+            [(ngModel)]="roleManagementPermissionService.selectedPermission"
+            [disabled]="!isAppSelected"
+          >
+          </ng-select>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="
+            !roleManagementPermissionService.selectedPermission || !roleManagementPermissionService.selectedApp
+          "
+          (click)="deletePermission()"
+        >
+          Видалити дозволи
+        </button>
+      </app-modal>
+    </div>
+
     <!-- @if (roleManagementRoleService.rolePermissionsGroups) { -->
     <div *ngFor="let app of roleManagementRoleService.rolePermissionsGroups | keyvalue">
       <div class="mt-4">
