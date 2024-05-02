@@ -1,8 +1,8 @@
 export class User {
   constructor(
     public username: string,
-    public homePage: string,
-    private _role: string,
+    // public homePage: string,
+    // private _role: string,
     private _token: string,
     private _pages: string[],
     private _tokenExpirationDate: Date
@@ -22,12 +22,12 @@ export class User {
     return this._tokenExpirationDate
   }
 
-  get role(): string | null {
-    if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {
-      return null
-    }
-    return this._role
-  }
+  // get role(): string | null {
+  //   if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {
+  //     return null
+  //   }
+  //   return this._role
+  // }
 
   get pages(): string[] {
     if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {

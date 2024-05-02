@@ -5,7 +5,7 @@ import { BehaviorSubject, tap } from 'rxjs'
 import { environment } from '../../../environments/environment'
 import { AuthResponseData } from '../../data-models/server-data.model'
 import { User } from '../models/user.model'
-
+import { jwtDecode, JwtPayload } from 'jwt-decode'
 @Injectable({
   providedIn: 'root'
 })
@@ -17,9 +17,9 @@ export class AuthService {
   user = new BehaviorSubject<User | null>(null)
   loadedUser: User | null = null
   private readonly url: string =
-    ('http://10.11.33.10:8012' || window.location.origin) + environment.API_BASE_URL + environment.auth_api_url
+    (environment.BACKEND_URL || window.location.origin) + environment.API_BASE_URL + environment.auth_api_url
 
-  serverLogIn(form: FormData) {
+  serverLogIn(form: { login: string; password: string }) {
     return this.http.post<AuthResponseData>(this.url + '/login', form)
   }
 
@@ -29,20 +29,15 @@ export class AuthService {
       pageToNavigate?: string
     }
 
-    return this.http.post<AccessInfo>(this.url + '/check_access', pageInfo)
+    return this.http.post<any>(this.url + '/verify_code', pageInfo)
   }
 
-  logIn(form: FormData) {
+  logIn(form: { login: string; password: string }) {
     return this.serverLogIn(form).pipe(
       tap((resData) => {
-        this.loadedUser = new User(
-          resData.username,
-          resData.homePage,
-          resData.role,
-          resData.access_token,
-          resData.pages,
-          resData.expiresAt
-        )
+        const decoded = jwtDecode<JwtPayload>(resData.access_token)
+
+        this.loadedUser = new User(decoded.Login, resData.access_token, ['/*'], new Date(decoded.expire_at))
         localStorage.setItem('user', JSON.stringify(this.loadedUser))
         this.isAuthorized = true
         this.user.next(this.loadedUser)
@@ -63,34 +58,25 @@ export class AuthService {
       this.isAuthorized = false
       return
     }
-
     const user: {
       username: string
-      homePage: string
-      _role: string
       _token: string
       _pages: string[]
       _tokenExpirationDate: string
     } = JSON.parse(user_data)
-
-    this.loadedUser = new User(
-      user.username,
-      user.homePage,
-      user._role,
-      user._token,
-      user._pages,
-      new Date(user._tokenExpirationDate)
-    )
-
+    this.loadedUser = new User(user.username, user._token, user._pages, new Date(user._tokenExpirationDate))
     if (this.loadedUser.token) {
-      const url = mainPage ? mainPage : this.router.url
-      this.checkAccess({ page: url, token: this.loadedUser.token }).subscribe({
-        next: (value) => {
-          this.isAuthorized = value.access
-          this.user.next(this.loadedUser)
-        },
-        error: () => (this.isAuthorized = false)
-      })
+      if (this.loadedUser.expireAt && this.loadedUser.expireAt > new Date()) {
+        this.isAuthorized = true
+        this.user.next(this.loadedUser)
+      }
+      // this.checkAccess({ page: url, token: this.loadedUser.token }).subscribe({
+      //   next: (value) => {
+      //     this.isAuthorized = value.access
+      //     this.user.next(this.loadedUser)
+      //   },
+      //   error: () => (this.isAuthorized = false)
+      // })
     } else this.logOut()
   }
 }

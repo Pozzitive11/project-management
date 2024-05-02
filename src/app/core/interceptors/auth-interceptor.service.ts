@@ -21,10 +21,7 @@ export class AuthInterceptorService implements HttpInterceptor {
         const newParams = req.params
         const modifiedReq = req.clone({
           params: newParams,
-          headers: req.headers.set(
-            'Authorization',
-            `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiTG9naW4iOiJSU2tvbW9yb2toYSIsIklzQWN0aXZlIjoxLCJleHBpcmVfYXQiOiIyMDI0LTA1LTAyVDE3OjQ2OjM0LjEyMDk0MiJ9.4v7WqCmdYstkY0N60Tm_sWcuVTeJpyysAgQ0QvGl_SM`
-          )
+          headers: req.headers.set('Authorization', `Bearer ${user.token}`)
         })
 
         return next.handle(modifiedReq)

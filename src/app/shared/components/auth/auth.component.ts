@@ -23,12 +23,9 @@ export class AuthComponent {
       return
     }
 
-    const formData = new FormData()
-    formData.append('username', form.value.username)
-    formData.append('password', form.value.password)
-
     this.loading = true
-    this.authService.logIn(formData).subscribe({
+
+    this.authService.logIn({ login: form.value.login, password: form.value.password }).subscribe({
       next: () => {
         this.error = null
         this.router.navigate([this.router.url]).then(() => (this.loading = false))

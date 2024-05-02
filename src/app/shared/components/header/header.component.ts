@@ -68,12 +68,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   isLinkAvailable(link: NavLinkInfo) {
     if (!this.authService.loadedUser) return false
-
     for (let page of this.authService.loadedUser.pages) {
       if (page === link.link || link?.child_links?.length) return true
       if (page.endsWith('*') && link.link.startsWith(page.slice(0, -1))) return true
     }
-
     return false
   }
 }

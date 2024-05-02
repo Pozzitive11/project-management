@@ -19,6 +19,6 @@ export const AuthGuard: CanActivateFn = async (_route: ActivatedRouteSnapshot, s
     if (page.endsWith('*') && state.url.startsWith(page.slice(0, -1))) return true
   }
 
-  await router.navigate([auth.loadedUser.homePage])
+  // await router.navigate([auth.loadedUser.homePage])
   return false
 }
