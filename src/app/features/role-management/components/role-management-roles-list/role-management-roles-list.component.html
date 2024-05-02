@@ -10,6 +10,11 @@
     </ng-select>
   </div>
 </div>
+@if (roleManagementRoleService.roleLoader) {
+  <div class="spinner-grow text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+  }
 @if (roleManagementRoleService.role$ | async) {
 <app-role-management-role [role]="roleManagementRoleService.role$ | async"></app-role-management-role>
 }

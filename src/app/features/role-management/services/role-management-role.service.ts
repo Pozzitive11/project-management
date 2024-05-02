@@ -21,6 +21,8 @@ export class RoleManagementRoleService {
   role$ = from(this._role$)
   selectedRole: Role | null
 
+  roleLoader = false
+
   rolePermissionsGroups: { [key: string]: Permission[] } = {}
   createRoleName = ''
   setRoles() {
@@ -64,6 +66,7 @@ export class RoleManagementRoleService {
   }
 
   getRole() {
+    this.roleLoader = true
     if (this.selectedRole) {
       this.roleManagementHttpService
         .getRoleInfo(this.selectedRole.id)
@@ -71,12 +74,14 @@ export class RoleManagementRoleService {
           takeUntilDestroyed(this.destroyRef),
           catchError((error) => {
             this.messageService.alertError(error)
+            this.roleLoader = false
             return of(null)
           })
         )
         .subscribe((data) => {
           if (data && data.permissions) {
             this.rolePermissionsGroups = this.groupPermissionsByApp(data.permissions)
+            this.roleLoader = false
           }
           this._role$.next(data)
         })

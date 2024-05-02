@@ -40,6 +40,7 @@
             [(ngModel)]="roleManagementPermissionService.selectedPermission"
             [disabled]="!isAppSelected"
             [multiple]="true"
+            [closeOnSelect]="false"
           >
           </ng-select>
         </div>
@@ -84,6 +85,7 @@
           type="button"
           class="btn btn-primary"
           (click)="deletePermission()"
+          [disabled]="!roleManagementPermissionService.selectedAppForDelete || !roleManagementPermissionService.selectedAppActionForDelete"
         >
           Видалити дозволи
         </button>

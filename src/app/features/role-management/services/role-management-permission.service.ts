@@ -21,9 +21,6 @@ export class RoleManagementPermissionService {
   private _permission$ = new BehaviorSubject<Permission[]>([])
   permission$ = from(this._permission$)
 
-  // private _permission$ = new BehaviorSubject<Permission[]>([])
-  // permission$ = from(this._permission$)
-
   permissionsByRole: PermissionByRole[] | null = null
   permissionApps: string[] = []
   selectedPermission: Permission[] | null = null
@@ -102,6 +99,7 @@ export class RoleManagementPermissionService {
           this.roleManagementRoleService.getRole()
         })
     }
+    this.modalService.dismissAll()
   }
   setPermissionsByRole(roleId: number) {
     this.roleManagementHttpService
@@ -123,11 +121,7 @@ export class RoleManagementPermissionService {
   getPermissionsByApp(app: string) {
     const appObject = this.permissionsByRole?.find((item) => item.app === app)
 
-    if (appObject) {
-      this.actionsByRoleApp = appObject.permissions
-    } else {
-      this.actionsByRoleApp = null
-    }
+    this.actionsByRoleApp = appObject ? appObject.permissions : null
   }
   clearAddPermissionUpdateModalValues() {
     this.selectedAppForUpdate = null
