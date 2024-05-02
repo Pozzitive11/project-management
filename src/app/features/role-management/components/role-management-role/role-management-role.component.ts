@@ -49,7 +49,7 @@ export class RoleManagementRoleComponent implements OnInit, OnChanges {
   deleteRole() {
     this.roleManagementRoleService.deleteRole()
   }
-  getSelectedApp() {
+  getSelectedAppForUpdate() {
     this.isAppSelected = true
     if (this.role) {
       this.roleManagementPermissionService.setPermissionByApp(this.role.id)
@@ -64,6 +64,14 @@ export class RoleManagementRoleComponent implements OnInit, OnChanges {
   deletePermission() {
     if (this.role) {
       this.roleManagementPermissionService.deletePermission(this.role.id)
+    }
+  }
+
+  getSelectedAppForDelete() {
+    if (this.roleManagementPermissionService.selectedAppForDelete) {
+      this.roleManagementPermissionService.getPermissionsByApp(
+        this.roleManagementPermissionService.selectedAppForDelete
+      )
     }
   }
 }

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 
 import { Injectable, inject } from '@angular/core'
 import { environment } from 'src/environments/environment'
-import { Permission, Role } from '../models/role.model'
+import { Permission, PermissionByRole, Role } from '../models/role.model'
 import { App } from '../../project-management/models/project.model'
 
 @Injectable({
@@ -41,7 +41,7 @@ export class RoleManagementHttpService {
     return this.http.get<{ permissions: Permission[] }>(`${this.roleUrl}/${roleId}/permissions/${appId}`)
   }
   getPermissionByRole(roleId: number) {
-    return this.http.get<{ permissions: Permission[] }>(`${this.roleUrl}/${roleId}/permissions`)
+    return this.http.get<{ permissions_by_app: PermissionByRole[] }>(`${this.roleUrl}/${roleId}/permissions`)
   }
   addRolePermissions(roleId: number, permissionIds: number[]) {
     return this.http.post(this.permissionUrl, {
@@ -50,7 +50,13 @@ export class RoleManagementHttpService {
     })
   }
   deleteRolePermissions(roleId: number, permissionId: number) {
-    const params = { RoleId: roleId, PermissionId: permissionId }
-    return this.http.delete(this.permissionUrl, { params })
+    const options = {
+      body: {
+        RoleId: roleId,
+        PermissionId: permissionId
+      }
+    }
+
+    return this.http.delete(this.permissionUrl, options)
   }
 }

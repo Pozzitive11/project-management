@@ -1,9 +1,10 @@
 import { DestroyRef, Injectable, inject } from '@angular/core'
-import { BehaviorSubject, from, tap } from 'rxjs'
+import { BehaviorSubject, catchError, from, of, tap } from 'rxjs'
 import { Permission, Role } from '../models/role.model'
 import { RoleManagementHttpService } from './role-management-http.service'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { MessageHandlingService } from 'src/app/shared/services/message-handling.service'
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class RoleManagementRoleService {
   private roleManagementHttpService = inject(RoleManagementHttpService)
   private modalService = inject(NgbModal)
   private destroyRef = inject(DestroyRef)
+  private messageService = inject(MessageHandlingService)
+
   private _roles$ = new BehaviorSubject<Role[]>([])
   roles$ = from(this._roles$)
   private _role$ = new BehaviorSubject<Role | null>(null)
@@ -23,9 +26,17 @@ export class RoleManagementRoleService {
   setRoles() {
     this.roleManagementHttpService
       .getRolesList()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError((error) => {
+          this.messageService.alertError(error)
+          return of(null)
+        })
+      )
       .subscribe((data) => {
-        this._roles$.next(data.roles)
+        if (data) {
+          this._roles$.next(data.roles)
+        }
       })
   }
 
@@ -34,6 +45,11 @@ export class RoleManagementRoleService {
       .createRole(this.createRoleName)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
+
+        catchError((error) => {
+          this.messageService.alertError(error)
+          return of(null)
+        }),
         tap((data) => {
           if (data) {
             const currentRoles = this._roles$.getValue()
@@ -51,9 +67,15 @@ export class RoleManagementRoleService {
     if (this.selectedRole) {
       this.roleManagementHttpService
         .getRoleInfo(this.selectedRole.id)
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError((error) => {
+            this.messageService.alertError(error)
+            return of(null)
+          })
+        )
         .subscribe((data) => {
-          if (data.permissions) {
+          if (data && data.permissions) {
             this.rolePermissionsGroups = this.groupPermissionsByApp(data.permissions)
           }
           this._role$.next(data)
@@ -65,7 +87,13 @@ export class RoleManagementRoleService {
     if (this._role$.value) {
       this.roleManagementHttpService
         .deleteRole(this._role$.value.id)
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError((error) => {
+            this.messageService.alertError(error)
+            return of(null)
+          })
+        )
         .subscribe(() => {
           if (this._role$.value) {
             this.filterRoles(this._role$.value.id)
@@ -79,11 +107,19 @@ export class RoleManagementRoleService {
     if (this._role$.value) {
       this.roleManagementHttpService
         .updateRole(this._role$.value.id, roleName)
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError((error) => {
+            this.messageService.alertError(error)
+            return of(null)
+          })
+        )
         .subscribe((data) => {
-          this.updateProjectValues(data.id, data.Name)
-          this.selectedRole = { Name: data.Name, id: data.id }
-          this._role$.next(data)
+          if (data) {
+            this.updateProjectValues(data.id, data.Name)
+            this.selectedRole = { Name: data.Name, id: data.id }
+            this._role$.next(data)
+          }
         })
     }
   }

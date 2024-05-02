@@ -23,7 +23,7 @@ export class AuthInterceptorService implements HttpInterceptor {
           params: newParams,
           headers: req.headers.set(
             'Authorization',
-            `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiTG9naW4iOiJSU2tvbW9yb2toYSIsIklzQWN0aXZlIjoxLCJleHBpcmVfYXQiOiIyMDI0LTA1LTAxVDE0OjQwOjI1LjM2NjYyNSJ9.jwNDojFQmrzknk7k908DZUOu4mVJU3Syui55-VMWe7c`
+            `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiTG9naW4iOiJSU2tvbW9yb2toYSIsIklzQWN0aXZlIjoxLCJleHBpcmVfYXQiOiIyMDI0LTA1LTAyVDE3OjQ2OjM0LjEyMDk0MiJ9.4v7WqCmdYstkY0N60Tm_sWcuVTeJpyysAgQ0QvGl_SM`
           )
         })
 

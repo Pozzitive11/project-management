@@ -1,9 +1,10 @@
 import { DestroyRef, Injectable, inject } from '@angular/core'
 import { App, NewApp, UpdateApp } from '../models/project.model'
-import { BehaviorSubject, Observable, from, tap } from 'rxjs'
+import { BehaviorSubject, Observable, catchError, from, of, tap } from 'rxjs'
 import { ProjectManagementHttpService } from './project-management-http.service'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
+import { MessageHandlingService } from 'src/app/shared/services/message-handling.service'
 
 // @Injectable({
 //   providedIn: 'root'
@@ -12,6 +13,7 @@ export class ProjectManagementAppService {
   private projectManagementHttpService = inject(ProjectManagementHttpService)
   private destroyRef = inject(DestroyRef)
   private modalService = inject(NgbModal)
+  private messageService = inject(MessageHandlingService)
   private _apps$ = new BehaviorSubject<App[]>([])
   apps$ = from(this._apps$)
 
@@ -28,11 +30,19 @@ export class ProjectManagementAppService {
     this.loader = true
     this.projectManagementHttpService
       .getAppsList(projectId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError((error) => {
+          this.messageService.alertError(error)
+          return of(null)
+        })
+      )
       .subscribe((data) => {
-        this._apps$.next(data.apps)
-        this.loader = false
-        this.isDataLoaded = true
+        if (data) {
+          this._apps$.next(data.apps)
+          this.loader = false
+          this.isDataLoaded = true
+        }
       })
   }
   createApp() {
@@ -47,6 +57,10 @@ export class ProjectManagementAppService {
       .createApp(app)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
+        catchError((error) => {
+          this.messageService.alertError(error)
+          return of(null)
+        }),
         tap((data) => {
           if (data) {
             const currentProjects = this._apps$.getValue()
@@ -65,7 +79,13 @@ export class ProjectManagementAppService {
   deleteApp(appId: number) {
     this.projectManagementHttpService
       .deleteApp(appId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError((error) => {
+          this.messageService.alertError(error)
+          return of(null)
+        })
+      )
       .subscribe(() => {
         this.filterApps(appId)
       })
@@ -79,7 +99,13 @@ export class ProjectManagementAppService {
     }
     this.projectManagementHttpService
       .updateApp(appId, app)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError((error) => {
+          this.messageService.alertError(error)
+          return of(null)
+        })
+      )
       .subscribe(() => {
         this.updateAppValues(appId, app)
       })

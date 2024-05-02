@@ -1,11 +1,12 @@
 import { DestroyRef, Injectable, inject } from '@angular/core'
-import { BehaviorSubject, from, tap } from 'rxjs'
-import { Permission, Role } from '../models/role.model'
+import { BehaviorSubject, catchError, from, of, tap } from 'rxjs'
+import { Permission, PermissionByRole, Role } from '../models/role.model'
 import { RoleManagementHttpService } from './role-management-http.service'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { App } from '../../project-management/models/project.model'
 import { RoleManagementRoleService } from './role-management-role.service'
+import { MessageHandlingService } from 'src/app/shared/services/message-handling.service'
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ import { RoleManagementRoleService } from './role-management-role.service'
 export class RoleManagementPermissionService {
   private roleManagementHttpService = inject(RoleManagementHttpService)
   private roleManagementRoleService = inject(RoleManagementRoleService)
+  private messageService = inject(MessageHandlingService)
   private modalService = inject(NgbModal)
   private destroyRef = inject(DestroyRef)
 
@@ -22,18 +24,29 @@ export class RoleManagementPermissionService {
   // private _permission$ = new BehaviorSubject<Permission[]>([])
   // permission$ = from(this._permission$)
 
-  permissionsByRole: Permission[] | null = null
-
+  permissionsByRole: PermissionByRole[] | null = null
+  permissionApps: string[] = []
   selectedPermission: Permission[] | null = null
-  selectedApp: App | null = null
+  selectedAppForUpdate: App | null = null
+  selectedAppForDelete: string | null = null
+  selectedAppActionForDelete: { id: number; Action: string } | null = null
+  actionsByRoleApp: { id: number; Action: string }[] | null = null
   apps: App[]
   setPermissionByApp(roleId: number) {
-    if (this.selectedApp) {
+    if (this.selectedAppForUpdate) {
       this.roleManagementHttpService
-        .getPermissionByApp(roleId, this.selectedApp.id)
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .getPermissionByApp(roleId, this.selectedAppForUpdate.id)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError((error) => {
+            this.messageService.alertError(error)
+            return of(null)
+          })
+        )
         .subscribe((data) => {
-          this._permission$.next(data.permissions)
+          if (data) {
+            this._permission$.next(data.permissions)
+          }
         })
     }
   }
@@ -41,9 +54,17 @@ export class RoleManagementPermissionService {
   setApps() {
     this.roleManagementHttpService
       .getAppsList()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError((error) => {
+          this.messageService.alertError(error)
+          return of(null)
+        })
+      )
       .subscribe((data) => {
-        this.apps = data.apps
+        if (data) {
+          this.apps = data.apps
+        }
       })
   }
 
@@ -52,35 +73,68 @@ export class RoleManagementPermissionService {
     if (selectedPermissionIds) {
       this.roleManagementHttpService
         .addRolePermissions(roleId, selectedPermissionIds)
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError((error) => {
+            this.messageService.alertError(error)
+            return of(null)
+          })
+        )
         .subscribe(() => {
           this.roleManagementRoleService.getRole()
         })
-      this.clearAddPermissionModalValues()
+      this.clearAddPermissionUpdateModalValues()
       this.modalService.dismissAll()
     }
   }
   deletePermission(roleId: number) {
-    // if (this.selectedPermission) {
-    //   this.roleManagementHttpService
-    //     .deleteRolePermissions(roleId, this.selectedPermission.id)
-    //     .pipe(takeUntilDestroyed(this.destroyRef))
-    //     .subscribe(() => {
-    //       this.roleManagementRoleService.getRole()
-    //     })
-    // }
+    if (this.selectedAppActionForDelete) {
+      this.roleManagementHttpService
+        .deleteRolePermissions(roleId, this.selectedAppActionForDelete.id)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError((error) => {
+            this.messageService.alertError(error)
+            return of(null)
+          })
+        )
+        .subscribe(() => {
+          this.roleManagementRoleService.getRole()
+        })
+    }
   }
   setPermissionsByRole(roleId: number) {
     this.roleManagementHttpService
       .getPermissionByRole(roleId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError((error) => {
+          this.messageService.alertError(error)
+          return of(null)
+        })
+      )
       .subscribe((data) => {
-        this.permissionsByRole = data.permissions
+        if (data) {
+          this.permissionsByRole = data.permissions_by_app
+          this.permissionApps = this.permissionsByRole.map((perm) => perm.app)
+        }
       })
   }
+  getPermissionsByApp(app: string) {
+    const appObject = this.permissionsByRole?.find((item) => item.app === app)
 
-  clearAddPermissionModalValues() {
-    this.selectedApp = null
+    if (appObject) {
+      this.actionsByRoleApp = appObject.permissions
+    } else {
+      this.actionsByRoleApp = null
+    }
+  }
+  clearAddPermissionUpdateModalValues() {
+    this.selectedAppForUpdate = null
     this.selectedPermission = null
+  }
+  clearAddPermissionDeleteModalValues() {
+    this.selectedAppForDelete = null
+    this.selectedAppActionForDelete = null
   }
 }

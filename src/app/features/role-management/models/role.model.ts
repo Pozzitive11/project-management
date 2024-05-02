@@ -9,3 +9,8 @@ export interface Permission {
   Action: string
   id: number
 }
+
+export interface PermissionByRole {
+  app: string
+  permissions: { id: number; Action: string }[]
+}
