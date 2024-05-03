@@ -1,6 +1,6 @@
-import { DestroyRef, Injectable, inject } from '@angular/core'
+import { DestroyRef, inject } from '@angular/core'
 import { App, NewApp, UpdateApp } from '../models/project.model'
-import { BehaviorSubject, Observable, catchError, from, of, tap } from 'rxjs'
+import { BehaviorSubject, catchError, from, of, tap } from 'rxjs'
 import { ProjectManagementHttpService } from './project-management-http.service'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'

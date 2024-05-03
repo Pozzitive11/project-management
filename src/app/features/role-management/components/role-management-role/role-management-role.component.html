@@ -103,11 +103,13 @@
     @if (!isRolePermissionGroupsEmpty) {
     <div class="permission-list">
       <div class="card" *ngFor="let app of roleManagementRoleService.rolePermissionsGroups | keyvalue">
-        <div class="card-body">
-          <p class="card-title h4">Додаток: {{ app.key }}</p>
-          <p class="card-subtitle mb-2 text-muted h5">Дозволи:</p>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let permission of app.value">{{ permission.Action }}</li>
+        <div class="card-header">
+          <h4 class="card-title text-center">{{ app.key }}</h4>
+        </div>
+        <div class="card-body d-flex justify-content-start align-items-center flex-column">
+          <!-- <p class="card-subtitle mb-2 text-muted h5">Дозволи:</p> -->
+          <ul class="list-group list-group-flush w-100">
+            <li class="list-group-item text-center" *ngFor="let permission of app.value">{{ permission.Action }}</li>
           </ul>
         </div>
       </div>
