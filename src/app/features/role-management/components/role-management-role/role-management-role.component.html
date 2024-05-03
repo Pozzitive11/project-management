@@ -100,20 +100,20 @@
       </app-modal>
     </div>
 
-    <!-- @if (roleManagementRoleService.rolePermissionsGroups) { -->
+    @if (!isRolePermissionGroupsEmpty) {
     <div class="permission-list">
       <div class="card" *ngFor="let app of roleManagementRoleService.rolePermissionsGroups | keyvalue">
         <div class="card-body">
-          <h4 class="card-title">Додаток: {{ app.key }}</h4>
-          <h5 class="card-subtitle mb-2 text-muted">Дозволи:</h5>
+          <p class="card-title h4">Додаток: {{ app.key }}</p>
+          <p class="card-subtitle mb-2 text-muted h5">Дозволи:</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item" *ngFor="let permission of app.value">{{ permission.Action }}</li>
           </ul>
         </div>
       </div>
     </div>
-    <!-- } @else { -->
-    <!-- <div class="alert alert-secondary text-center">Дозволи відсутні</div> -->
-    <!-- } -->
+    } @else {
+    <div class="alert alert-secondary text-center">Дозволи відсутні</div>
+    }
   </div>
 </div>

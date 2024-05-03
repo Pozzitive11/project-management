@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { RoleManagementPermissionService } from '../../services/role-management-permission.service'
 import { ProjectManagementAppService } from 'src/app/features/project-management/services/project-management-app.service'
+import { UtilFunctions } from 'src/app/shared/utils/util.functions'
 
 @Component({
   selector: 'app-role-management-role',
@@ -27,17 +28,19 @@ export class RoleManagementRoleComponent implements OnInit, OnChanges {
     if (this.role) {
       this.roleManagementPermissionService.setPermissionsByRole(this.role.id)
     }
+    console.log(UtilFunctions.getObjectKeys([this.roleManagementRoleService.rolePermissionsGroups]))
   }
-
+  isRolePermissionGroupsEmpty = true
   ngOnChanges(changes: SimpleChanges): void {
     if ('role' in changes) {
       this.updateRoleNameFromRole()
       if (this.role) {
         this.roleManagementPermissionService.setPermissionsByRole(this.role.id)
       }
+      this.isRolePermissionGroupsEmpty =
+        UtilFunctions.getObjectKeys([this.roleManagementRoleService.rolePermissionsGroups]).length === 0
     }
   }
-
   private updateRoleNameFromRole(): void {
     if (this.role) {
       this.updateRoleName = this.role.Name
