@@ -21,5 +21,8 @@ export class RoleManagementRolesListComponent implements OnInit {
 
   roleSelection() {
     this.roleManagementRoleService.getRole()
+    if (this.roleManagementRoleService.selectedRole === null) {
+      this.roleManagementRoleService.clearRole()
+    }
   }
 }

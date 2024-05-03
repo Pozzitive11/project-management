@@ -20,8 +20,13 @@
     </div>
   </div>
   <div class="card-body">
-    <div class="d-flex align-items-center gap-3">
-      <app-modal [buttonName]="'Додати дозволи'" [modalName]="'Додати дозволи'" [buttonClasses]="'btn-outline-primary'" (modalClosed)="roleManagementPermissionService.clearAddPermissionUpdateModalValues()">
+    <div class="d-flex align-items-center gap-3 mb-3">
+      <app-modal
+        [buttonName]="'Додати дозволи'"
+        [modalName]="'Додати дозволи'"
+        [buttonClasses]="'btn-outline-primary'"
+        (modalClosed)="roleManagementPermissionService.clearAddPermissionUpdateModalValues()"
+      >
         <div class="mb-4">
           <ng-select
             [items]="roleManagementPermissionService.apps"
@@ -85,7 +90,10 @@
           type="button"
           class="btn btn-primary"
           (click)="deletePermission()"
-          [disabled]="!roleManagementPermissionService.selectedAppForDelete || !roleManagementPermissionService.selectedAppActionForDelete"
+          [disabled]="
+            !roleManagementPermissionService.selectedAppForDelete ||
+            !roleManagementPermissionService.selectedAppActionForDelete
+          "
         >
           Видалити дозволи
         </button>
@@ -93,13 +101,15 @@
     </div>
 
     <!-- @if (roleManagementRoleService.rolePermissionsGroups) { -->
-    <div *ngFor="let app of roleManagementRoleService.rolePermissionsGroups | keyvalue">
-      <div class="mt-4">
-        <h4>Додаток: {{ app.key }}</h4>
-        <h5>Дозволи:</h5>
-        <ul>
-          <li *ngFor="let permission of app.value">{{ permission.Action }}</li>
-        </ul>
+    <div class="permission-list">
+      <div class="card" *ngFor="let app of roleManagementRoleService.rolePermissionsGroups | keyvalue">
+        <div class="card-body">
+          <h4 class="card-title">Додаток: {{ app.key }}</h4>
+          <h5 class="card-subtitle mb-2 text-muted">Дозволи:</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let permission of app.value">{{ permission.Action }}</li>
+          </ul>
+        </div>
       </div>
     </div>
     <!-- } @else { -->

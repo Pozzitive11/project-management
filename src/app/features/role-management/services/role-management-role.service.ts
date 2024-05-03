@@ -87,7 +87,10 @@ export class RoleManagementRoleService {
         })
     }
   }
-
+  clearRole() {
+    this._role$.next(null)
+    this.roleLoader = false
+  }
   deleteRole() {
     if (this._role$.value) {
       this.roleManagementHttpService

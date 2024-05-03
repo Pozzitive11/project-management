@@ -15,6 +15,6 @@
     <span class="sr-only">Loading...</span>
   </div>
   }
-@if (roleManagementRoleService.role$ | async) {
+@if ((roleManagementRoleService.role$ | async) && roleManagementRoleService.selectedRole) {
 <app-role-management-role [role]="roleManagementRoleService.role$ | async"></app-role-management-role>
 }
