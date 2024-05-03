@@ -57,6 +57,7 @@ export class RoleManagementRoleService {
             const currentRoles = this._roles$.getValue()
             const updatedProjects = [...currentRoles, data]
             this._roles$.next(updatedProjects)
+            this.messageService.sendInfo(`Роль створено`)
             this.createRoleName = ''
           }
         })
@@ -107,6 +108,7 @@ export class RoleManagementRoleService {
             this.filterRoles(this._role$.value.id)
             this.selectedRole = null
             this._role$.next(null)
+            this.messageService.sendInfo(`Роль видалено`)
           }
         })
     }
@@ -127,9 +129,11 @@ export class RoleManagementRoleService {
             this.updateProjectValues(data.id, data.Name)
             this.selectedRole = { Name: data.Name, id: data.id }
             this._role$.next(data)
+            this.messageService.sendInfo(`Роль оновлено`)
           }
         })
     }
+    this.modalService.dismissAll()
   }
   private filterRoles(appId: number) {
     const currentApps = this._roles$.getValue()

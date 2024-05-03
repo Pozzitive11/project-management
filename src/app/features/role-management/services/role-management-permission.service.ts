@@ -79,6 +79,9 @@ export class RoleManagementPermissionService {
         )
         .subscribe(() => {
           this.roleManagementRoleService.getRole()
+          selectedPermissionIds.length > 1
+            ? this.messageService.sendInfo('Дозволи додано')
+            : this.messageService.sendInfo('Дозвіл додано')
         })
       this.clearAddPermissionUpdateModalValues()
       this.modalService.dismissAll()
@@ -97,6 +100,12 @@ export class RoleManagementPermissionService {
         )
         .subscribe(() => {
           this.roleManagementRoleService.getRole()
+          // if (selectedPermissionIds.length > 1) {
+          //   this.messageService.sendInfo('Дозволи додано')
+          // } else {
+          //   this.messageService.sendInfo('Дозвіл додано')
+          // }
+          this.messageService.sendInfo('Дозвіл видалено')
         })
     }
     this.modalService.dismissAll()

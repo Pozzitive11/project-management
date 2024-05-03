@@ -57,6 +57,7 @@ export class ProjectManagementProjectService {
 
             this.createProjectName = ''
             this.createProjectDescription = ''
+            this.messageService.sendInfo('Проект створено')
           }
         })
       )
@@ -75,6 +76,7 @@ export class ProjectManagementProjectService {
       )
       .subscribe(() => {
         this.filterProjects(projectId)
+        this.messageService.sendInfo('Проект видалено')
       })
   }
   updateProject(projectId: number, projectName: string, projectDescription: string) {
@@ -89,6 +91,7 @@ export class ProjectManagementProjectService {
       )
       .subscribe(() => {
         this.updateProjectValues(projectId, projectName, projectDescription)
+        this.messageService.sendInfo('Проект оновлено')
       })
   }
   private updateProjectValues(projectId: number, projectName: string, projectDescription: string) {

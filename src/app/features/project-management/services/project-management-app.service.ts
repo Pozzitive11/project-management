@@ -70,6 +70,7 @@ export class ProjectManagementAppService {
             this.createAppShortDescription = ''
             this.createAppRoute = ''
             this.createAppDescription = ''
+            this.messageService.sendInfo('Додаток створено')
           }
         })
       )
@@ -88,6 +89,7 @@ export class ProjectManagementAppService {
       )
       .subscribe(() => {
         this.filterApps(appId)
+        this.messageService.sendInfo('Додаток видалено')
       })
   }
   updateApp(appId: number, appName: string, appDescription: string, appShortDescription: string, appRoute: string) {
@@ -108,6 +110,7 @@ export class ProjectManagementAppService {
       )
       .subscribe(() => {
         this.updateAppValues(appId, app)
+        this.messageService.sendInfo('Додаток оновлено')
       })
     this.modalService.dismissAll()
   }
