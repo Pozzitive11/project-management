@@ -1,15 +1,15 @@
 <div class="accordion custom-accordion mb-4">
   <div class="accordion-item custom-accordion-item">
-    <div class="accordion-header custom-accordion-header">
+    <div class="accordion-header custom-accordion-header project ">
       <h2
-        class="accordion-header d-flex justify-content-between align-items-center w-100 pointer"
+        class="accordion-header d-flex justify-content-between project-header align-items-center w-100 pointer"
         (click)="toggleShow()"
       >
         <div class="d-block text-white bg-primary p-2 rounded custom-accordion-header">
           {{ project.Name }}: {{ project.Description }}
         </div>
 
-        <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
           <button
             (click)="getProjectApps()"
             [disabled]="projectManagementAppService.isDataLoaded"
@@ -62,6 +62,7 @@
             class="accordion-button bg-transparent shadow-none"
             style="width: auto"
             [class.collapsed]="!showBody"
+            [hidden]="!projectManagementAppService.isDataLoaded"
           ></div>
         </div>
       </h2>

@@ -6,10 +6,10 @@
     type="button"
   >
     <ul class="position-absolute start-0 end-0 d-flex justify-content-evenly align-items-center gap-3 m-0 p-0">
-      <li class="list-unstyled" style="width: 190px">{{ app.Name }}</li>
-      <li class="list-unstyled" style="width: 190px">{{ app.Route }}</li>
-      <li class="list-unstyled" style="width: 190px">{{ app.ShortDescription }}</li>
-      <!-- <li class="list-unstyled" style="width: 190px">{{ app.Project }}</li> -->
+      <li class="list-unstyled" style="width: 50px">{{ app.Name }}</li>
+      <li class="list-unstyled" style="width: 50px">{{ app.Route }}</li>
+      <li class="list-unstyled" style="width: 130px">{{ app.ShortDescription }}</li>
+      <!-- <li class="list-unstyled" style="width: 50px">{{ app.Project }}</li> -->
       <li class="list-unstyled" style="width: 190px">
         <app-modal [modalName]="'Оновити додаток'" [buttonName]="'Оновити додаток'" [buttonClasses]="'btn-outline-info'">
           <form>
@@ -42,7 +42,7 @@
                 type="text"
                 class="form-control"
                 id="shortDescription"
-                name="appDescription"
+                name="appShortDescription"
                 placeholder="Напишіть короткий опис додатку"
               />
             </div>

@@ -29,6 +29,8 @@ export class ProjectManagementAppComponent implements OnInit {
   }
 
   setAppValues() {
+    console.log(this.app)
+
     this.updateAppName = this.app.Name
     this.updateAppDescription = this.app.Description
     this.updateAppShortDescription = this.app.ShortDescription
