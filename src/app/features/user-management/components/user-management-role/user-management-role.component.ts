@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms'
 import { Component, Input, inject } from '@angular/core'
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap'
 import { UserManagementUserRolesService } from '../../services/user-management-user-roles.service'
-import { Role } from 'src/app/features/role-management/models/role.model'
+import { PermissionByRole, Role } from 'src/app/features/role-management/models/role.model'
 import { RoleManagementHttpService } from 'src/app/features/role-management/services/role-management-http.service'
 
 @Component({
@@ -18,11 +18,12 @@ export class UserManagementRoleComponent {
   private roleManagementHttpService = inject(RoleManagementHttpService)
 
   @Input() role: Role
-  permissions: any
+  appsWithPermissions: any
 
   loadRole() {
-    this.roleManagementHttpService.getRoleInfo(this.role.id).subscribe((data) => {
-      this.permissions = data?.permissions
+    this.roleManagementHttpService.getPermissionByRole(this.role.id).subscribe((data) => {
+      this.appsWithPermissions = data.permissions_by_app
+      console.log(data.permissions_by_app)
     })
   }
 }

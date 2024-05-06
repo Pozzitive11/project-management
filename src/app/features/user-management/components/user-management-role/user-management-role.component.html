@@ -1,4 +1,4 @@
-<div ngbAccordion class="col-3">
+<div ngbAccordion >
   <div ngbAccordionItem>
     <h2 ngbAccordionHeader>
       <button ngbAccordionButton (click)="loadRole()">
@@ -8,11 +8,20 @@
     <div ngbAccordionCollapse>
       <div ngbAccordionBody>
         <ng-template>
-          <!-- <ng-container *ngIf="userManagementUserRolesService.userRole$ | async as userRole"> -->
-            <ul>
-              <li *ngFor="let permission of permissions">{{ permission.App }}: {{ permission.Action }}</li>
-            </ul>
-          <!-- </ng-container> -->
+          <div class="permission-list">
+            <div class="card" *ngFor="let app of appsWithPermissions">
+              <div class="card-header">
+                <h4 class="card-title text-center">{{ app.app }}</h4>
+              </div>
+              <div class="card-body d-flex justify-content-start align-items-center flex-column">
+                <ul class="list-group list-group-flush w-100">
+                  <li class="list-group-item text-center" *ngFor="let permission of app.permissions">
+                    {{ permission.Action }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </ng-template>
       </div>
     </div>
