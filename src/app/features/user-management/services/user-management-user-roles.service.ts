@@ -5,15 +5,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { MessageHandlingService } from 'src/app/shared/services/message-handling.service'
 import { UserManagementHttpService } from './user-management-http.service'
 import { User, UserRole } from '../models/user.model'
-import { Permission } from '../../role-management/models/role.model'
+import { Permission, Role } from '../../role-management/models/role.model'
 import { UserManagementUserService } from './user-management-user.service'
 import { UserManagementUserPermissionsService } from './user-management-user-permissions.service'
+import { RoleManagementHttpService } from '../../role-management/services/role-management-http.service'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserManagementUserRolesService {
   private userManagementHttpService = inject(UserManagementHttpService)
+  private roleManagementHttpService = inject(RoleManagementHttpService)
   protected userManagementUserService = inject(UserManagementUserService)
   protected userManagementUserPermissionsService = inject(UserManagementUserPermissionsService)
   private destroyRef = inject(DestroyRef)
@@ -25,8 +27,6 @@ export class UserManagementUserRolesService {
 
   private _availableRoles$ = new BehaviorSubject<UserRole[] | null>(null)
   availableRoles$ = from(this._availableRoles$)
-
-  // availableRoles: UserRole[] | null = null
 
   selectedRoleForAdd: UserRole[] | null = null
   selectedRoleForDelete: UserRole[] | null = null
@@ -63,8 +63,6 @@ export class UserManagementUserRolesService {
         )
         .subscribe((data) => {
           if (data) {
-            console.log(data.roles)
-
             this._availableRoles$.next(data.roles)
             // this.availableRoles = data.roles
           }
@@ -121,6 +119,7 @@ export class UserManagementUserRolesService {
     }
     this.modalService.dismissAll()
   }
+
   private filterUserRoles(roleIds: number[]) {
     const currentUserRoles = this._userRoles$.getValue()
     if (!currentUserRoles) return

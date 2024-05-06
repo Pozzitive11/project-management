@@ -8,11 +8,13 @@ import { FormsModule } from '@angular/forms'
 import { UserManagementUserRolesService } from '../../services/user-management-user-roles.service'
 import { UserManagementUserPermissionsService } from '../../services/user-management-user-permissions.service'
 import { RoleManagementPermissionService } from 'src/app/features/role-management/services/role-management-permission.service'
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap'
+import { UserManagementRoleComponent } from '../user-management-role/user-management-role.component'
 
 @Component({
   selector: 'app-user-management-user',
   standalone: true,
-  imports: [CommonModule, ModalComponent, NgSelectModule, FormsModule],
+  imports: [CommonModule, ModalComponent, NgSelectModule, FormsModule, NgbAccordionModule, UserManagementRoleComponent],
   templateUrl: './user-management-user.component.html',
   styleUrl: './user-management-user.component.css'
 })

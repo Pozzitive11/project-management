@@ -34,7 +34,10 @@ export class UserManagementHttpService {
   getAvailableRoles(userId: number) {
     return this.http.get<{ roles: UserRole[] }>(`${this.userUrl}/${userId}/roles/available`)
   }
-
+  getAvailablePermissionsByApp(userId: number, appId: number) {
+    return this.http.get<{ permissions: UserPermissionByApp[] }>(`${this.userUrl}/${userId}/permissions/${appId}`)
+  }
+  // PERMISSIONS
   addRoleToUSer(userId: number, roleIds: number[]) {
     return this.http.post(`${this.permissionUrl}/role_user`, { UserId: userId, RoleIds: roleIds })
   }
@@ -46,9 +49,5 @@ export class UserManagementHttpService {
       }
     }
     return this.http.delete(`${this.permissionUrl}/role_user`, options)
-  }
-
-  getAvailablePermissionsByApp(userId: number, appId: number) {
-    return this.http.get<{ permissions: UserPermissionByApp[] }>(`${this.userUrl}/${userId}/permissions/${appId}`)
   }
 }

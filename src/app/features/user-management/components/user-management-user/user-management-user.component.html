@@ -5,10 +5,15 @@
   </div>
   <div class="card-body">
     <div class="d-flex align-items-center gap-3 mb-3">
-      <app-modal [buttonName]="'Додати роль'" [modalName]="'Додати роль'" [buttonClasses]="'btn-outline-primary'" (modalClosed)="clearAddRoleModal()">
+      <app-modal
+        [buttonName]="'Додати роль'"
+        [modalName]="'Додати роль'"
+        [buttonClasses]="'btn-outline-primary'"
+        (modalClosed)="clearAddRoleModal()"
+      >
         <div class="mb-4">
           <ng-select
-            [items]="userManagementUserRolesService.availableRoles$ |async"
+            [items]="userManagementUserRolesService.availableRoles$ | async"
             bindLabel="Name"
             placeholder="Оберіть роль"
             [(ngModel)]="userManagementUserRolesService.selectedRoleForAdd"
@@ -53,12 +58,18 @@
         </button>
       </app-modal>
     </div>
-    Ролі:
-    <div *ngIf="userManagementUserRolesService.userRoles$ | async">
-      <ul *ngFor="let role of userManagementUserRolesService.userRoles$ | async">
-        <li>{{ role.Name }}</li>
-      </ul>
+    <div *ngIf="userManagementUserRolesService.userRoles$ | async as roles">
+      <ng-container *ngIf="roles.length > 0; else noRoles">
+        <h5>Ролі:</h5>
+        <ng-container *ngFor="let role of roles">
+          <app-user-management-role [role]="role"></app-user-management-role>
+        </ng-container>
+      </ng-container>
+      <ng-template #noRoles>
+        <div class="alert alert-secondary col-3">Нема ролей</div>
+      </ng-template>
     </div>
+
     <app-modal [buttonName]="'Додати дозволи'" [modalName]="'Додати дозволи'" [buttonClasses]="'btn-outline-primary'">
       <div class="mb-4">
         <ng-select

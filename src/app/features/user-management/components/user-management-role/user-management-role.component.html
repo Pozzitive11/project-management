@@ -1,0 +1,20 @@
+<div ngbAccordion class="col-3">
+  <div ngbAccordionItem>
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton (click)="loadRole()">
+        {{ role.Name }}
+      </button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <ng-template>
+          <!-- <ng-container *ngIf="userManagementUserRolesService.userRole$ | async as userRole"> -->
+            <ul>
+              <li *ngFor="let permission of permissions">{{ permission.App }}: {{ permission.Action }}</li>
+            </ul>
+          <!-- </ng-container> -->
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
