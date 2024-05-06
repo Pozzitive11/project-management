@@ -1,0 +1,65 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">{{ user?.Login }}</h5>
+    <div class="d-flex align-items-center gap-3"></div>
+  </div>
+  <div class="card-body">
+    <div class="d-flex align-items-center gap-3 mb-3">
+      <app-modal [buttonName]="'Додати роль'" [modalName]="'Додати роль'" [buttonClasses]="'btn-outline-primary'">
+        <div class="mb-4">
+          <ng-select
+            [items]="userManagementUserService.availableRoles"
+            bindLabel="Name"
+            placeholder="Оберіть роль"
+            [(ngModel)]="userManagementUserService.selectedRoleForAdd"
+            [multiple]="true"
+            [closeOnSelect]="false"
+          >
+          </ng-select>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="!userManagementUserService.selectedRoleForAdd"
+          (click)="userManagementUserService.addUserRole()"
+        >
+          Додати роль
+        </button>
+      </app-modal>
+      <app-modal [buttonName]="'Видалити роль'" [modalName]="'Видалити роль'" [buttonClasses]="'btn-danger'" (modalClosed)="clearDeleteRoleModal()">
+        <div class="mb-4">
+          <ng-select
+            [items]="userManagementUserService.userRoles$ | async"
+            bindLabel="Name"
+            placeholder="Оберіть роль"
+            [(ngModel)]="userManagementUserService.selectedRoleForDelete"
+            [multiple]="true"
+            [closeOnSelect]="false"
+          >
+          </ng-select>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="!userManagementUserService.selectedRoleForDelete"
+          (click)="userManagementUserService.deleteUserRole()"
+        >
+          Видалити роль
+        </button>
+      </app-modal>
+    </div>
+    Ролі:
+    <div *ngIf="userManagementUserService.userRoles$ | async">
+      <ul *ngFor="let role of userManagementUserService.userRoles$ | async">
+        <li>{{ role.Name }}</li>
+      </ul>
+    </div>
+    Доступи:
+    <div *ngIf="userManagementUserService.userPermissions">
+      <ul *ngFor="let permission of userManagementUserService.userPermissions">
+        <li>{{ permission.App }}</li>
+        <li>{{ permission.Action }}</li>
+      </ul>
+    </div>
+  </div>
+</div>

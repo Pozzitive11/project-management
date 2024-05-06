@@ -22,15 +22,14 @@ export class RoleManagementRoleComponent implements OnInit, OnChanges {
   @Input() role: Role | null
   updateRoleName = ''
   isAppSelected = false
+  isRolePermissionGroupsEmpty = true
   ngOnInit(): void {
     this.updateRoleNameFromRole()
     this.roleManagementPermissionService.setApps()
     if (this.role) {
       this.roleManagementPermissionService.setPermissionsByRole(this.role.id)
     }
-    console.log(UtilFunctions.getObjectKeys([this.roleManagementRoleService.rolePermissionsGroups]))
   }
-  isRolePermissionGroupsEmpty = true
   ngOnChanges(changes: SimpleChanges): void {
     if ('role' in changes) {
       this.updateRoleNameFromRole()

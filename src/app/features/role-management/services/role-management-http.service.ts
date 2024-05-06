@@ -49,11 +49,11 @@ export class RoleManagementHttpService {
       PermissionIds: permissionIds
     })
   }
-  deleteRolePermissions(roleId: number, permissionId: number) {
+  deleteRolePermissions(roleId: number, permissionIds: number[]) {
     const options = {
       body: {
         RoleId: roleId,
-        PermissionId: permissionId
+        PermissionIds: permissionIds
       }
     }
 

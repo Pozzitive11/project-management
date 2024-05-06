@@ -47,7 +47,6 @@ export class RoleManagementRoleService {
       .createRole(this.createRoleName)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-
         catchError((error) => {
           this.messageService.alertError(error)
           return of(null)

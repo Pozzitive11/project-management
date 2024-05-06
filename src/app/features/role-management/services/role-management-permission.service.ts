@@ -26,7 +26,7 @@ export class RoleManagementPermissionService {
   selectedPermission: Permission[] | null = null
   selectedAppForUpdate: App | null = null
   selectedAppForDelete: string | null = null
-  selectedAppActionForDelete: { id: number; Action: string } | null = null
+  selectedAppActionForDelete: { id: number; Action: string }[] | null = null
   actionsByRoleApp: { id: number; Action: string }[] | null = null
   apps: App[]
   setPermissionByApp(roleId: number) {
@@ -88,9 +88,11 @@ export class RoleManagementPermissionService {
     }
   }
   deletePermission(roleId: number) {
-    if (this.selectedAppActionForDelete) {
+    const selectedPermissionIds = this.selectedAppActionForDelete?.map((permission) => permission.id)
+
+    if (selectedPermissionIds) {
       this.roleManagementHttpService
-        .deleteRolePermissions(roleId, this.selectedAppActionForDelete.id)
+        .deleteRolePermissions(roleId, selectedPermissionIds)
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           catchError((error) => {

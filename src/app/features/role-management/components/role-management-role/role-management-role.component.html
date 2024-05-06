@@ -83,6 +83,8 @@
             placeholder="Оберіть дозволи"
             [(ngModel)]="roleManagementPermissionService.selectedAppActionForDelete"
             [disabled]="!roleManagementPermissionService.actionsByRoleApp"
+            [multiple]="true"
+            [closeOnSelect]="false"
           >
           </ng-select>
         </div>
