@@ -7,6 +7,7 @@ import { UserManagementHttpService } from './user-management-http.service'
 import { User, UserRole } from '../models/user.model'
 import { Permission } from '../../role-management/models/role.model'
 import { UserManagementUserService } from './user-management-user.service'
+import { ProjectManagementAppService } from '../../project-management/services/project-management-app.service'
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class UserManagementUserPermissionsService {
   private messageService = inject(MessageHandlingService)
 
   userPermissions: Permission[] | null = null
-
+  selectedApp: { id: number; Action: string }[] | null = null
   getUserPermissions() {
     if (this.userManagementUserService.selectedUser) {
       this.userManagementHttpService
@@ -38,4 +39,6 @@ export class UserManagementUserPermissionsService {
         })
     }
   }
+
+  addUserPermission() {}
 }

@@ -7,6 +7,7 @@ import { NgSelectModule } from '@ng-select/ng-select'
 import { FormsModule } from '@angular/forms'
 import { UserManagementUserRolesService } from '../../services/user-management-user-roles.service'
 import { UserManagementUserPermissionsService } from '../../services/user-management-user-permissions.service'
+import { RoleManagementPermissionService } from 'src/app/features/role-management/services/role-management-permission.service'
 
 @Component({
   selector: 'app-user-management-user',
@@ -15,13 +16,24 @@ import { UserManagementUserPermissionsService } from '../../services/user-manage
   templateUrl: './user-management-user.component.html',
   styleUrl: './user-management-user.component.css'
 })
-export class UserManagementUserComponent {
+export class UserManagementUserComponent implements OnInit, OnChanges {
   protected userManagementUserService = inject(UserManagementUserService)
   protected userManagementUserRolesService = inject(UserManagementUserRolesService)
   protected userManagementUserPermissionsService = inject(UserManagementUserPermissionsService)
-  @Input() user: User | null
+  protected roleManagementPermissionService = inject(RoleManagementPermissionService)
 
+  @Input() user: User | null
+  ngOnInit(): void {
+    this.userManagementUserRolesService.getAvailableRoles()
+    this.roleManagementPermissionService.setApps()
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.userManagementUserRolesService.getAvailableRoles()
+  }
   clearDeleteRoleModal() {
     this.userManagementUserRolesService.selectedRoleForDelete = null
+  }
+  clearAddRoleModal() {
+    this.userManagementUserRolesService.selectedRoleForAdd = null
   }
 }

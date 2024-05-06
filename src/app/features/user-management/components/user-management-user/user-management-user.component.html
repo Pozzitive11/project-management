@@ -5,10 +5,10 @@
   </div>
   <div class="card-body">
     <div class="d-flex align-items-center gap-3 mb-3">
-      <app-modal [buttonName]="'Додати роль'" [modalName]="'Додати роль'" [buttonClasses]="'btn-outline-primary'">
+      <app-modal [buttonName]="'Додати роль'" [modalName]="'Додати роль'" [buttonClasses]="'btn-outline-primary'" (modalClosed)="clearAddRoleModal()">
         <div class="mb-4">
           <ng-select
-            [items]="userManagementUserRolesService.availableRoles"
+            [items]="userManagementUserRolesService.availableRoles$ |async"
             bindLabel="Name"
             placeholder="Оберіть роль"
             [(ngModel)]="userManagementUserRolesService.selectedRoleForAdd"
@@ -26,7 +26,12 @@
           Додати роль
         </button>
       </app-modal>
-      <app-modal [buttonName]="'Видалити роль'" [modalName]="'Видалити роль'" [buttonClasses]="'btn-danger'" (modalClosed)="clearDeleteRoleModal()">
+      <app-modal
+        [buttonName]="'Видалити роль'"
+        [modalName]="'Видалити роль'"
+        [buttonClasses]="'btn-danger'"
+        (modalClosed)="clearDeleteRoleModal()"
+      >
         <div class="mb-4">
           <ng-select
             [items]="userManagementUserRolesService.userRoles$ | async"
@@ -54,6 +59,25 @@
         <li>{{ role.Name }}</li>
       </ul>
     </div>
+    <app-modal [buttonName]="'Додати дозволи'" [modalName]="'Додати дозволи'" [buttonClasses]="'btn-outline-primary'">
+      <div class="mb-4">
+        <ng-select
+          [items]="roleManagementPermissionService.apps"
+          bindLabel="Name"
+          placeholder="Оберіть додаток"
+          [(ngModel)]="userManagementUserPermissionsService.selectedApp"
+        >
+        </ng-select>
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="!userManagementUserPermissionsService.selectedApp"
+        (click)="userManagementUserPermissionsService.addUserPermission()"
+      >
+        Додати дозволи
+      </button>
+    </app-modal>
     Доступи:
     <div *ngIf="userManagementUserPermissionsService.userPermissions">
       <ul *ngFor="let permission of userManagementUserPermissionsService.userPermissions">

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 
 import { Injectable, inject } from '@angular/core'
 import { environment } from 'src/environments/environment'
-import { User, UserRole } from '../models/user.model'
+import { User, UserPermissionByApp, UserRole } from '../models/user.model'
 import { Permission } from '../../role-management/models/role.model'
 
 @Injectable({
@@ -32,7 +32,7 @@ export class UserManagementHttpService {
   }
 
   getAvailableRoles(userId: number) {
-    return this.http.get<{ roles: UserRole[] }>(`${this.userUrl}/roles/${userId}/available`)
+    return this.http.get<{ roles: UserRole[] }>(`${this.userUrl}/${userId}/roles/available`)
   }
 
   addRoleToUSer(userId: number, roleIds: number[]) {
@@ -46,5 +46,9 @@ export class UserManagementHttpService {
       }
     }
     return this.http.delete(`${this.permissionUrl}/role_user`, options)
+  }
+
+  getAvailablePermissionsByApp(userId: number, appId: number) {
+    return this.http.get<{ permissions: UserPermissionByApp[] }>(`${this.userUrl}/${userId}/permissions/${appId}`)
   }
 }

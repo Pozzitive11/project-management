@@ -23,7 +23,10 @@ export class UserManagementUserRolesService {
   private _userRoles$ = new BehaviorSubject<UserRole[] | null>(null)
   userRoles$ = from(this._userRoles$)
 
-  availableRoles: UserRole[] | null = null
+  private _availableRoles$ = new BehaviorSubject<UserRole[] | null>(null)
+  availableRoles$ = from(this._availableRoles$)
+
+  // availableRoles: UserRole[] | null = null
 
   selectedRoleForAdd: UserRole[] | null = null
   selectedRoleForDelete: UserRole[] | null = null
@@ -60,7 +63,10 @@ export class UserManagementUserRolesService {
         )
         .subscribe((data) => {
           if (data) {
-            this.availableRoles = data.roles
+            console.log(data.roles)
+
+            this._availableRoles$.next(data.roles)
+            // this.availableRoles = data.roles
           }
         })
     }
@@ -76,11 +82,17 @@ export class UserManagementUserRolesService {
           catchError((error) => {
             this.messageService.alertError(error)
             return of(null)
+          }),
+          tap(() => {
+            this.getUserRoles()
+            this.getAvailableRoles()
+            this.userManagementUserPermissionsService.getUserPermissions()
+            const message = selectedRolesIds.length === 1 ? 'Роль додано' : 'Ролі додано'
+            this.messageService.sendInfo(message)
+            this.modalService.dismissAll()
           })
         )
-        .subscribe(() => {
-          this.messageService.sendInfo(`Роль додано`)
-        })
+        .subscribe(() => {})
     }
     this.modalService.dismissAll()
   }
@@ -98,10 +110,13 @@ export class UserManagementUserRolesService {
           tap(() => {
             this.filterUserRoles(selectedRolesIds)
             this.userManagementUserPermissionsService.getUserPermissions()
+            this.getAvailableRoles()
           })
         )
         .subscribe(() => {
-          this.messageService.sendInfo(`Роль видалено`)
+          selectedRolesIds.length === 1
+            ? this.messageService.sendInfo(`Роль видалено`)
+            : this.messageService.sendInfo(`Ролі видалено`)
         })
     }
     this.modalService.dismissAll()

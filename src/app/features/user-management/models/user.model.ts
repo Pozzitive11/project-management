@@ -8,3 +8,9 @@ export interface UserRole {
   id: number
   Name: string
 }
+
+export interface UserPermissionByApp {
+  App: string
+  Action: string
+  id: number
+}
