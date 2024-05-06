@@ -23,7 +23,6 @@ export class UserManagementRoleComponent {
   loadRole() {
     this.roleManagementHttpService.getPermissionByRole(this.role.id).subscribe((data) => {
       this.appsWithPermissions = data.permissions_by_app
-      console.log(data.permissions_by_app)
     })
   }
 }
