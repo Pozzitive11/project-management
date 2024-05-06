@@ -6,68 +6,36 @@ import { MessageHandlingService } from 'src/app/shared/services/message-handling
 import { UserManagementHttpService } from './user-management-http.service'
 import { User, UserRole } from '../models/user.model'
 import { Permission } from '../../role-management/models/role.model'
+import { UserManagementUserService } from './user-management-user.service'
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserManagementUserService {
+export class UserManagementUserPermissionsService {
   private userManagementHttpService = inject(UserManagementHttpService)
+  protected userManagementUserService = inject(UserManagementUserService)
   private destroyRef = inject(DestroyRef)
   private modalService = inject(NgbModal)
   private messageService = inject(MessageHandlingService)
 
-  private _users$ = new BehaviorSubject<User[]>([])
-  users$ = from(this._users$)
+  userPermissions: Permission[] | null = null
 
-  private _user$ = new BehaviorSubject<User | null>(null)
-  user$ = from(this._user$)
-
-  selectedUser: User | null = null
-
-  userListLoader = false
-  userLoader = false
-
-  getUsers() {
-    this.userListLoader = true
-    this.userManagementHttpService
-      .getUsersList()
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        catchError((error) => {
-          this.messageService.alertError(error)
-          this.userListLoader = false
-          return of(null)
-        })
-      )
-      .subscribe((data) => {
-        if (data) {
-          this.userListLoader = false
-          this._users$.next(data.users)
-        }
-      })
-  }
-
-  getUser() {
-    this.userLoader = true
-    if (this.selectedUser) {
+  getUserPermissions() {
+    if (this.userManagementUserService.selectedUser) {
       this.userManagementHttpService
-        .getUserInfo(this.selectedUser.id)
+        .getUserPermissions(this.userManagementUserService.selectedUser.id)
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           catchError((error) => {
             this.messageService.alertError(error)
-            this.userLoader = false
             return of(null)
           })
         )
         .subscribe((data) => {
-          this._user$.next(data)
-          this.userLoader = false
+          if (data) {
+            this.userPermissions = data.permissions
+          }
         })
     }
-  }
-  clearUser() {
-    this._user$.next(null)
-    this.userLoader = false
   }
 }

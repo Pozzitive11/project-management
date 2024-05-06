@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common'
 import { ModalComponent } from 'src/app/shared/components/modal/modal.component'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { FormsModule } from '@angular/forms'
+import { UserManagementUserRolesService } from '../../services/user-management-user-roles.service'
+import { UserManagementUserPermissionsService } from '../../services/user-management-user-permissions.service'
 
 @Component({
   selector: 'app-user-management-user',
@@ -15,9 +17,11 @@ import { FormsModule } from '@angular/forms'
 })
 export class UserManagementUserComponent {
   protected userManagementUserService = inject(UserManagementUserService)
+  protected userManagementUserRolesService = inject(UserManagementUserRolesService)
+  protected userManagementUserPermissionsService = inject(UserManagementUserPermissionsService)
   @Input() user: User | null
 
   clearDeleteRoleModal() {
-    this.userManagementUserService.selectedRoleForDelete = null
+    this.userManagementUserRolesService.selectedRoleForDelete = null
   }
 }

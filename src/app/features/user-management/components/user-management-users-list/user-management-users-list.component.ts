@@ -4,6 +4,8 @@ import { UserManagementUserComponent } from '../user-management-user/user-manage
 import { CommonModule } from '@angular/common'
 import { NgSelectModule } from '@ng-select/ng-select'
 import { FormsModule } from '@angular/forms'
+import { UserManagementUserRolesService } from '../../services/user-management-user-roles.service'
+import { UserManagementUserPermissionsService } from '../../services/user-management-user-permissions.service'
 
 @Component({
   selector: 'app-user-management-users-list',
@@ -14,13 +16,19 @@ import { FormsModule } from '@angular/forms'
 })
 export class UserManagementUsersListComponent implements OnInit {
   protected userManagementUserService = inject(UserManagementUserService)
+  protected userManagementUserRolesService = inject(UserManagementUserRolesService)
+  protected userManagementUserPermissionsService = inject(UserManagementUserPermissionsService)
+
   ngOnInit(): void {
     this.userManagementUserService.getUsers()
   }
 
   userSelection() {
     this.userManagementUserService.getUser()
-    this.userManagementUserService.getUserRoles()
-    this.userManagementUserService.getUserPermissions()
+    this.userManagementUserRolesService.getUserRoles()
+    this.userManagementUserPermissionsService.getUserPermissions()
+    if (this.userManagementUserService.selectedUser === null) {
+      this.userManagementUserService.clearUser()
+    }
   }
 }

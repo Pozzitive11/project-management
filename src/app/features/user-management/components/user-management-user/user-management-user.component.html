@@ -8,10 +8,10 @@
       <app-modal [buttonName]="'Додати роль'" [modalName]="'Додати роль'" [buttonClasses]="'btn-outline-primary'">
         <div class="mb-4">
           <ng-select
-            [items]="userManagementUserService.availableRoles"
+            [items]="userManagementUserRolesService.availableRoles"
             bindLabel="Name"
             placeholder="Оберіть роль"
-            [(ngModel)]="userManagementUserService.selectedRoleForAdd"
+            [(ngModel)]="userManagementUserRolesService.selectedRoleForAdd"
             [multiple]="true"
             [closeOnSelect]="false"
           >
@@ -20,8 +20,8 @@
         <button
           type="button"
           class="btn btn-primary"
-          [disabled]="!userManagementUserService.selectedRoleForAdd"
-          (click)="userManagementUserService.addUserRole()"
+          [disabled]="!userManagementUserRolesService.selectedRoleForAdd"
+          (click)="userManagementUserRolesService.addUserRole()"
         >
           Додати роль
         </button>
@@ -29,10 +29,10 @@
       <app-modal [buttonName]="'Видалити роль'" [modalName]="'Видалити роль'" [buttonClasses]="'btn-danger'" (modalClosed)="clearDeleteRoleModal()">
         <div class="mb-4">
           <ng-select
-            [items]="userManagementUserService.userRoles$ | async"
+            [items]="userManagementUserRolesService.userRoles$ | async"
             bindLabel="Name"
             placeholder="Оберіть роль"
-            [(ngModel)]="userManagementUserService.selectedRoleForDelete"
+            [(ngModel)]="userManagementUserRolesService.selectedRoleForDelete"
             [multiple]="true"
             [closeOnSelect]="false"
           >
@@ -41,22 +41,22 @@
         <button
           type="button"
           class="btn btn-primary"
-          [disabled]="!userManagementUserService.selectedRoleForDelete"
-          (click)="userManagementUserService.deleteUserRole()"
+          [disabled]="!userManagementUserRolesService.selectedRoleForDelete"
+          (click)="userManagementUserRolesService.deleteUserRole()"
         >
           Видалити роль
         </button>
       </app-modal>
     </div>
     Ролі:
-    <div *ngIf="userManagementUserService.userRoles$ | async">
-      <ul *ngFor="let role of userManagementUserService.userRoles$ | async">
+    <div *ngIf="userManagementUserRolesService.userRoles$ | async">
+      <ul *ngFor="let role of userManagementUserRolesService.userRoles$ | async">
         <li>{{ role.Name }}</li>
       </ul>
     </div>
     Доступи:
-    <div *ngIf="userManagementUserService.userPermissions">
-      <ul *ngFor="let permission of userManagementUserService.userPermissions">
+    <div *ngIf="userManagementUserPermissionsService.userPermissions">
+      <ul *ngFor="let permission of userManagementUserPermissionsService.userPermissions">
         <li>{{ permission.App }}</li>
         <li>{{ permission.Action }}</li>
       </ul>
