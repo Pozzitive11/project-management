@@ -42,8 +42,12 @@ export class UserManagementUserComponent implements OnInit, OnChanges {
     this.userManagementUserRolesService.selectedRoleForAdd = null
   }
   clearAddPermissionModal() {
-    this.userManagementUserPermissionsService.selectedApp = null
-    this.userManagementUserPermissionsService.selectedPermission = null
+    this.userManagementUserPermissionsService.selectedAppForAdd = null
+    this.userManagementUserPermissionsService.selectedPermissionsForAdd = null
+  }
+  clearDeletePermissionModal() {
+    this.userManagementUserPermissionsService.selectedAppForDelete = null
+    this.userManagementUserPermissionsService.selectedPermissionsForDelete = null
   }
   getAvailablePermissions() {
     if (this.user) {
@@ -53,6 +57,18 @@ export class UserManagementUserComponent implements OnInit, OnChanges {
   addUserPermission() {
     if (this.user) {
       this.userManagementUserPermissionsService.addUserPermission(this.user.id)
+    }
+  }
+  deleteUserPermission() {
+    if (this.user) {
+      this.userManagementUserPermissionsService.deleteUserPermission(this.user.id)
+    }
+  }
+  getSelectedAppForDelete() {
+    if (this.userManagementUserPermissionsService.selectedAppForDelete) {
+      this.userManagementUserPermissionsService.getPermissionsByApp(
+        this.userManagementUserPermissionsService.selectedAppForDelete.app
+      )
     }
   }
 }

@@ -8,6 +8,7 @@ import { User, UserRole } from '../models/user.model'
 import { Permission, PermissionByRole } from '../../role-management/models/role.model'
 import { UserManagementUserService } from './user-management-user.service'
 import { ProjectManagementAppService } from '../../project-management/services/project-management-app.service'
+import { App } from '../../project-management/models/project.model'
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +21,12 @@ export class UserManagementUserPermissionsService {
   private messageService = inject(MessageHandlingService)
 
   userPermissions: PermissionByRole[] = []
-  selectedApp: { id: number; Action: string } | null = null
+  selectedAppForAdd: App | null = null
+  selectedAppForDelete: PermissionByRole | null = null
   availablePermissions: Permission[] | null = null
-  selectedPermission: Permission[] | null = null
+  selectedPermissionsForAdd: Permission[] | null = null
+  selectedPermissionsForDelete: Permission[] | null = null
+  actionsByApp: { id: number; Action: string }[] | null = null
   getUserPermissions() {
     if (this.userManagementUserService.selectedUser) {
       this.userManagementHttpService
@@ -43,9 +47,9 @@ export class UserManagementUserPermissionsService {
   }
 
   getAvailablePermissionByApp(userId: number) {
-    if (this.selectedApp) {
+    if (this.selectedAppForAdd) {
       this.userManagementHttpService
-        .getAvailablePermissionsByApp(userId, this.selectedApp.id)
+        .getAvailablePermissionsByApp(userId, this.selectedAppForAdd.id)
         .pipe()
         .subscribe((data) => {
           this.availablePermissions = data.permissions
@@ -54,12 +58,27 @@ export class UserManagementUserPermissionsService {
   }
 
   addUserPermission(userId: number) {
-    const permissionIds = this.selectedPermission?.map((permission) => permission.id)
+    const permissionIds = this.selectedPermissionsForAdd?.map((permission) => permission.id)
     if (permissionIds) {
       this.userManagementHttpService.addUserPermission(userId, permissionIds).subscribe((data) => {
         this.getUserPermissions()
         this.modalService.dismissAll()
       })
     }
+  }
+  deleteUserPermission(userId: number) {
+    const permissionIds = this.selectedPermissionsForDelete?.map((permission) => permission.id)
+    if (permissionIds) {
+      this.userManagementHttpService.deleteUserPermission(userId, permissionIds).subscribe((data) => {
+        this.getUserPermissions()
+        this.modalService.dismissAll()
+      })
+    }
+  }
+
+  getPermissionsByApp(app: string) {
+    const appObject = this.userPermissions?.find((item) => item.app === app)
+
+    this.actionsByApp = appObject ? appObject.permissions : null
   }
 }

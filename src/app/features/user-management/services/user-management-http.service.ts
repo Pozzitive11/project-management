@@ -54,4 +54,10 @@ export class UserManagementHttpService {
   addUserPermission(userId: number, permissionIds: number[]) {
     return this.http.post(`${this.permissionUrl}/perm_user`, { UserId: userId, PermissionIds: permissionIds })
   }
+  deleteUserPermission(userId: number, permissionIds: number[]) {
+    const options = {
+      body: { UserId: userId, PermissionIds: permissionIds }
+    }
+    return this.http.delete(`${this.permissionUrl}/perm_user`, options)
+  }
 }
