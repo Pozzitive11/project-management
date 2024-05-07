@@ -1,0 +1,99 @@
+<div class="d-flex align-items-center gap-3 mb-3">
+  <app-modal
+    [buttonName]="'Додати дозволи'"
+    [modalName]="'Додати дозволи'"
+    [buttonClasses]="'btn-outline-primary'"
+    (modalClosed)="clearAddPermissionModal()"
+  >
+    <div class="mb-4">
+      <ng-select
+        [items]="roleManagementPermissionService.apps"
+        bindLabel="Name"
+        placeholder="Оберіть додаток"
+        [(ngModel)]="userManagementUserPermissionsService.selectedAppForAdd"
+        (change)="getAvailablePermissions()"
+      >
+      </ng-select>
+    </div>
+    <div class="mb-4">
+      <ng-select
+        [items]="userManagementUserPermissionsService.availablePermissions"
+        bindLabel="Action"
+        placeholder="Оберіть додаток"
+        [(ngModel)]="userManagementUserPermissionsService.selectedPermissionsForAdd"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [disabled]="!userManagementUserPermissionsService.selectedAppForAdd"
+      >
+      </ng-select>
+    </div>
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="
+        !userManagementUserPermissionsService.selectedAppForAdd ||
+        !userManagementUserPermissionsService.selectedPermissionsForAdd
+      "
+      (click)="addUserPermission()"
+    >
+      Додати дозволи
+    </button>
+  </app-modal>
+  <app-modal
+    [buttonName]="'Видалити дозволи'"
+    [modalName]="'Видалити дозволи'"
+    [buttonClasses]="'btn-danger'"
+    (modalClosed)="clearDeletePermissionModal()"
+  >
+    <div class="mb-4">
+      <ng-select
+        [items]="userManagementUserPermissionsService.userPermissions"
+        bindLabel="app"
+        placeholder="Оберіть додаток"
+        [(ngModel)]="userManagementUserPermissionsService.selectedAppForDelete"
+        (change)="getSelectedAppForDelete()"
+      >
+      </ng-select>
+    </div>
+    <div class="mb-4">
+      <ng-select
+        [items]="userManagementUserPermissionsService.actionsByApp"
+        bindLabel="Action"
+        placeholder="Оберіть додаток"
+        [(ngModel)]="userManagementUserPermissionsService.selectedPermissionsForDelete"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [disabled]="!userManagementUserPermissionsService.selectedAppForDelete"
+      >
+      </ng-select>
+    </div>
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="!userManagementUserPermissionsService.selectedAppForDelete"
+      (click)="deleteUserPermission()"
+    >
+      Видалити дозволи
+    </button>
+  </app-modal>
+</div>
+
+@if (userManagementUserPermissionsService.userPermissions.length > 0 ) {
+<h5 class="mt-3">Окремі доступи:</h5>
+<div class="permission-list">
+  <div class="card" *ngFor="let app of userManagementUserPermissionsService.userPermissions">
+    <div class="card-header">
+      <h4 class="card-title text-center">{{ app.app }}</h4>
+    </div>
+    <div class="card-body d-flex justify-content-start align-items-center flex-column">
+      <ul class="list-group list-group-flush w-100">
+        <li class="list-group-item text-center" *ngFor="let permission of app.permissions">
+          {{ permission.Action }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+} @else {
+<div class="alert alert-secondary mt-3">Немає окремих доступів</div>
+}
