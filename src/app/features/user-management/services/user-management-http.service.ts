@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core'
 import { environment } from 'src/environments/environment'
 import { User, UserPermissionByApp, UserRole } from '../models/user.model'
-import { Permission } from '../../role-management/models/role.model'
+import { Permission, PermissionByRole } from '../../role-management/models/role.model'
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class UserManagementHttpService {
     return this.http.get<{ roles: UserRole[] }>(`${this.userUrl}/${userId}/roles`)
   }
   getUserPermissions(userId: number) {
-    return this.http.get<{ permissions: Permission[] }>(`${this.userUrl}/${userId}/permissions`)
+    return this.http.get<{ permissions_by_app: PermissionByRole[] }>(`${this.userUrl}/${userId}/permissions`)
   }
 
   getAvailableRoles(userId: number) {
@@ -37,6 +37,7 @@ export class UserManagementHttpService {
   getAvailablePermissionsByApp(userId: number, appId: number) {
     return this.http.get<{ permissions: UserPermissionByApp[] }>(`${this.userUrl}/${userId}/permissions/${appId}`)
   }
+
   // PERMISSIONS
   addRoleToUSer(userId: number, roleIds: number[]) {
     return this.http.post(`${this.permissionUrl}/role_user`, { UserId: userId, RoleIds: roleIds })
@@ -49,5 +50,8 @@ export class UserManagementHttpService {
       }
     }
     return this.http.delete(`${this.permissionUrl}/role_user`, options)
+  }
+  addUserPermission(userId: number, permissionIds: number[]) {
+    return this.http.post(`${this.permissionUrl}/perm_user`, { UserId: userId, PermissionIds: permissionIds })
   }
 }

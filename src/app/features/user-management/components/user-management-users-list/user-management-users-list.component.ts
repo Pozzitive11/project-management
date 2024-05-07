@@ -26,7 +26,6 @@ export class UserManagementUsersListComponent implements OnInit {
   userSelection() {
     this.userManagementUserService.getUser()
     this.userManagementUserRolesService.getUserRoles()
-    this.userManagementUserPermissionsService.getUserPermissions()
     if (this.userManagementUserService.selectedUser === null) {
       this.userManagementUserService.clearUser()
     }

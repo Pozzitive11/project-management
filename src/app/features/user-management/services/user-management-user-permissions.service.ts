@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { MessageHandlingService } from 'src/app/shared/services/message-handling.service'
 import { UserManagementHttpService } from './user-management-http.service'
 import { User, UserRole } from '../models/user.model'
-import { Permission } from '../../role-management/models/role.model'
+import { Permission, PermissionByRole } from '../../role-management/models/role.model'
 import { UserManagementUserService } from './user-management-user.service'
 import { ProjectManagementAppService } from '../../project-management/services/project-management-app.service'
 
@@ -19,8 +19,10 @@ export class UserManagementUserPermissionsService {
   private modalService = inject(NgbModal)
   private messageService = inject(MessageHandlingService)
 
-  userPermissions: Permission[] | null = null
-  selectedApp: { id: number; Action: string }[] | null = null
+  userPermissions: PermissionByRole[] = []
+  selectedApp: { id: number; Action: string } | null = null
+  availablePermissions: Permission[] | null = null
+  selectedPermission: Permission[] | null = null
   getUserPermissions() {
     if (this.userManagementUserService.selectedUser) {
       this.userManagementHttpService
@@ -34,11 +36,30 @@ export class UserManagementUserPermissionsService {
         )
         .subscribe((data) => {
           if (data) {
-            this.userPermissions = data.permissions
+            this.userPermissions = data.permissions_by_app
           }
         })
     }
   }
 
-  addUserPermission() {}
+  getAvailablePermissionByApp(userId: number) {
+    if (this.selectedApp) {
+      this.userManagementHttpService
+        .getAvailablePermissionsByApp(userId, this.selectedApp.id)
+        .pipe()
+        .subscribe((data) => {
+          this.availablePermissions = data.permissions
+        })
+    }
+  }
+
+  addUserPermission(userId: number) {
+    const permissionIds = this.selectedPermission?.map((permission) => permission.id)
+    if (permissionIds) {
+      this.userManagementHttpService.addUserPermission(userId, permissionIds).subscribe((data) => {
+        this.getUserPermissions()
+        this.modalService.dismissAll()
+      })
+    }
+  }
 }
