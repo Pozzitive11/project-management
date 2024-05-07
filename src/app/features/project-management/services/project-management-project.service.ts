@@ -55,8 +55,6 @@ export class ProjectManagementProjectService {
             const updatedProjects = [...currentProjects, data]
             this._projects$.next(updatedProjects)
 
-            this.createProjectName = ''
-            this.createProjectDescription = ''
             this.messageService.sendInfo('Проект створено')
           }
         })

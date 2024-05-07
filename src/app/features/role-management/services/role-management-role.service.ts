@@ -53,10 +53,9 @@ export class RoleManagementRoleService {
         }),
         tap((data) => {
           if (data) {
-            this.setRoles()
-            // const currentRoles = this._roles$.getValue()
-            // const updatedProjects = [...currentRoles, data]
-            // this._roles$.next(updatedProjects)
+            const currentRoles = this._roles$.getValue()
+            const updatedProjects = [...currentRoles, data]
+            this._roles$.next(updatedProjects)
             this.messageService.sendInfo(`Роль створено`)
             // this.createRoleName = ''
           }
@@ -105,7 +104,7 @@ export class RoleManagementRoleService {
         )
         .subscribe(() => {
           if (this._role$.value) {
-            this.setRoles()
+            this.filterRoles(this._role$.value.id)
             this.selectedRole = null
             this._role$.next(null)
             this.messageService.sendInfo(`Роль видалено`)
@@ -126,32 +125,31 @@ export class RoleManagementRoleService {
         )
         .subscribe((data) => {
           if (data) {
-            this.getRole()
-            // this.updateProjectValues(data.id, data.Name)
-            // this.selectedRole = { Name: data.Name, id: data.id }
-            // this._role$.next(data)
+            this.updateProjectValues(data.id, data.Name)
+            this.selectedRole = { Name: data.Name, id: data.id }
+            this._role$.next(data)
             this.messageService.sendInfo(`Роль оновлено`)
           }
         })
     }
     this.modalService.dismissAll()
   }
-  // private filterRoles(appId: number) {
-  //   const currentApps = this._roles$.getValue()
-  //   const updatedApps = currentApps.filter((app) => app.id !== appId)
-  //   this._roles$.next(updatedApps)
-  // }
-  // private updateProjectValues(roleId: number, roleName: string) {
-  //   const currentRoles = this._roles$.getValue()
-  //   const roleIndex = currentRoles.findIndex((role) => role.id === roleId)
-  //   if (roleIndex !== -1) {
-  //     const updatedProject = { ...currentRoles[roleIndex] }
-  //     updatedProject.Name = roleName
-  //     const updatedProjects = [...currentRoles]
-  //     updatedProjects[roleIndex] = updatedProject
-  //     this._roles$.next(updatedProjects)
-  //   }
-  // }
+  private filterRoles(appId: number) {
+    const currentApps = this._roles$.getValue()
+    const updatedApps = currentApps.filter((app) => app.id !== appId)
+    this._roles$.next(updatedApps)
+  }
+  private updateProjectValues(roleId: number, roleName: string) {
+    const currentRoles = this._roles$.getValue()
+    const roleIndex = currentRoles.findIndex((role) => role.id === roleId)
+    if (roleIndex !== -1) {
+      const updatedProject = { ...currentRoles[roleIndex] }
+      updatedProject.Name = roleName
+      const updatedProjects = [...currentRoles]
+      updatedProjects[roleIndex] = updatedProject
+      this._roles$.next(updatedProjects)
+    }
+  }
   private groupPermissionsByApp(permissions: Permission[]) {
     return permissions.reduce<{ [key: string]: Permission[] }>((groups, permission) => {
       const appName = permission.App
