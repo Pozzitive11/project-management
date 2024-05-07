@@ -91,6 +91,8 @@ export class ProjectManagementProjectService {
         this.updateProjectValues(projectId, projectName, projectDescription)
         this.messageService.sendInfo('Проект оновлено')
       })
+
+    this.modalService.dismissAll()
   }
   private updateProjectValues(projectId: number, projectName: string, projectDescription: string) {
     const currentProjects = this._projects$.getValue()

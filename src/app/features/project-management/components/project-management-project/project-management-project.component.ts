@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { Component, Input, OnInit, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
-import { App, Project } from '../../models/project.model'
+import { Project } from '../../models/project.model'
 import { ProjectManagementProjectService } from '../../services/project-management-project.service'
 import { ProjectManagementAppsListComponent } from '../project-management-apps-list/project-management-apps-list.component'
 import { ProjectManagementAppService } from '../../services/project-management-app.service'
@@ -18,7 +17,6 @@ import { ModalComponent } from 'src/app/shared/components/modal/modal.component'
 export class ProjectManagementProjectComponent implements OnInit {
   protected projectManagementProjectService = inject(ProjectManagementProjectService)
   protected projectManagementAppService = inject(ProjectManagementAppService)
-  private modalService = inject(NgbModal)
 
   @Input() project: Project
   showBody = false
@@ -51,8 +49,6 @@ export class ProjectManagementProjectComponent implements OnInit {
       this.updateProjectName,
       this.updateProjectDescription
     )
-
-    this.modalService.dismissAll()
   }
 
   getProjectApps() {
