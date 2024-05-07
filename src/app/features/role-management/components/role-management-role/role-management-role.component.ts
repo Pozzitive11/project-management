@@ -48,9 +48,6 @@ export class RoleManagementRoleComponent implements OnInit, OnChanges {
   updateRole() {
     this.roleManagementRoleService.updateRole(this.updateRoleName)
   }
-  deleteRole() {
-    this.roleManagementRoleService.deleteRole()
-  }
   getSelectedAppForUpdate() {
     this.isAppSelected = true
     if (this.role) {

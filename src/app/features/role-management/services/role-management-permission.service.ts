@@ -102,12 +102,11 @@ export class RoleManagementPermissionService {
         )
         .subscribe(() => {
           this.roleManagementRoleService.getRole()
-          // if (selectedPermissionIds.length > 1) {
-          //   this.messageService.sendInfo('Дозволи додано')
-          // } else {
-          //   this.messageService.sendInfo('Дозвіл додано')
-          // }
-          this.messageService.sendInfo('Дозвіл видалено')
+          if (selectedPermissionIds.length > 1) {
+            this.messageService.sendInfo('Дозволи видалено')
+          } else {
+            this.messageService.sendInfo('Дозвіл видалено')
+          }
         })
     }
     this.modalService.dismissAll()
