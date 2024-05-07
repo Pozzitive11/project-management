@@ -21,12 +21,17 @@ export class UserManagementUserPermissionsService {
   private messageService = inject(MessageHandlingService)
 
   userPermissions: PermissionByRole[] = []
+
   selectedAppForAdd: App | null = null
   selectedAppForDelete: PermissionByRole | null = null
+
   availablePermissions: Permission[] | null = null
+
   selectedPermissionsForAdd: Permission[] | null = null
   selectedPermissionsForDelete: Permission[] | null = null
+
   actionsByApp: { id: number; Action: string }[] | null = null
+
   getUserPermissions() {
     if (this.userManagementUserService.selectedUser) {
       this.userManagementHttpService
@@ -50,9 +55,17 @@ export class UserManagementUserPermissionsService {
     if (this.selectedAppForAdd) {
       this.userManagementHttpService
         .getAvailablePermissionsByApp(userId, this.selectedAppForAdd.id)
-        .pipe()
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError((error) => {
+            this.messageService.alertError(error)
+            return of(null)
+          })
+        )
         .subscribe((data) => {
-          this.availablePermissions = data.permissions
+          if (data) {
+            this.availablePermissions = data.permissions
+          }
         })
     }
   }
@@ -60,19 +73,43 @@ export class UserManagementUserPermissionsService {
   addUserPermission(userId: number) {
     const permissionIds = this.selectedPermissionsForAdd?.map((permission) => permission.id)
     if (permissionIds) {
-      this.userManagementHttpService.addUserPermission(userId, permissionIds).subscribe((data) => {
-        this.getUserPermissions()
-        this.modalService.dismissAll()
-      })
+      this.userManagementHttpService
+        .addUserPermission(userId, permissionIds)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError((error) => {
+            this.messageService.alertError(error)
+            return of(null)
+          })
+        )
+        .subscribe(() => {
+          this.getUserPermissions()
+          permissionIds.length === 1
+            ? this.messageService.sendInfo(`Дозвіл додано`)
+            : this.messageService.sendInfo(`Дозволи додано`)
+          this.modalService.dismissAll()
+        })
     }
   }
   deleteUserPermission(userId: number) {
     const permissionIds = this.selectedPermissionsForDelete?.map((permission) => permission.id)
     if (permissionIds) {
-      this.userManagementHttpService.deleteUserPermission(userId, permissionIds).subscribe((data) => {
-        this.getUserPermissions()
-        this.modalService.dismissAll()
-      })
+      this.userManagementHttpService
+        .deleteUserPermission(userId, permissionIds)
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          catchError((error) => {
+            this.messageService.alertError(error)
+            return of(null)
+          })
+        )
+        .subscribe(() => {
+          this.getUserPermissions()
+          permissionIds.length === 1
+            ? this.messageService.sendInfo(`Дозвіл видалено`)
+            : this.messageService.sendInfo(`Дозволи видалено`)
+          this.modalService.dismissAll()
+        })
     }
   }
 

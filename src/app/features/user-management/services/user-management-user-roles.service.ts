@@ -63,7 +63,6 @@ export class UserManagementUserRolesService {
         .subscribe((data) => {
           if (data) {
             this._availableRoles$.next(data.roles)
-            // this.availableRoles = data.roles
           }
         })
     }

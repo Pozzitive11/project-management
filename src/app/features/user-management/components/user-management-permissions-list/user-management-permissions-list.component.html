@@ -19,7 +19,7 @@
       <ng-select
         [items]="userManagementUserPermissionsService.availablePermissions"
         bindLabel="Action"
-        placeholder="Оберіть додаток"
+        placeholder="Оберіть дозволи"
         [(ngModel)]="userManagementUserPermissionsService.selectedPermissionsForAdd"
         [multiple]="true"
         [closeOnSelect]="false"
@@ -59,7 +59,7 @@
       <ng-select
         [items]="userManagementUserPermissionsService.actionsByApp"
         bindLabel="Action"
-        placeholder="Оберіть додаток"
+        placeholder="Оберіть дозволи"
         [(ngModel)]="userManagementUserPermissionsService.selectedPermissionsForDelete"
         [multiple]="true"
         [closeOnSelect]="false"
@@ -70,7 +70,10 @@
     <button
       type="button"
       class="btn btn-primary"
-      [disabled]="!userManagementUserPermissionsService.selectedAppForDelete"
+      [disabled]="
+        !userManagementUserPermissionsService.selectedAppForDelete ||
+        !userManagementUserPermissionsService.selectedPermissionsForDelete
+      "
       (click)="deleteUserPermission()"
     >
       Видалити дозволи
