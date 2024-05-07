@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  BACKEND_URL: 'http:///10.11.33.12:31000',
+  BACKEND_URL: 'http://test.data-factory.ua',
   API_BASE_URL: '/api/v0',
 
   SOCKET_ENDPOINT: 'ws://10.11.33.10:8012/api/v0/websocket',

@@ -15,7 +15,6 @@ import { RoleManagementHttpService } from '../../role-management/services/role-m
 })
 export class UserManagementUserRolesService {
   private userManagementHttpService = inject(UserManagementHttpService)
-  private roleManagementHttpService = inject(RoleManagementHttpService)
   protected userManagementUserService = inject(UserManagementUserService)
   protected userManagementUserPermissionsService = inject(UserManagementUserPermissionsService)
   private destroyRef = inject(DestroyRef)
@@ -85,9 +84,9 @@ export class UserManagementUserRolesService {
             this.getUserRoles()
             this.getAvailableRoles()
             this.userManagementUserPermissionsService.getUserPermissions()
-            const message = selectedRolesIds.length === 1 ? 'Роль додано' : 'Ролі додано'
-            this.messageService.sendInfo(message)
-            this.modalService.dismissAll()
+            selectedRolesIds.length === 1
+              ? this.messageService.sendInfo('Роль додано')
+              : this.messageService.sendInfo('Ролі додано')
           })
         )
         .subscribe(() => {})

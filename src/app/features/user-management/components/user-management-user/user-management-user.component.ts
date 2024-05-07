@@ -10,7 +10,6 @@ import { UserManagementUserPermissionsService } from '../../services/user-manage
 import { RoleManagementPermissionService } from 'src/app/features/role-management/services/role-management-permission.service'
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap'
 import { UserManagementRoleComponent } from '../user-management-role/user-management-role.component'
-import { UtilFunctions } from 'src/app/shared/utils/util.functions'
 
 @Component({
   selector: 'app-user-management-user',
@@ -26,7 +25,6 @@ export class UserManagementUserComponent implements OnInit, OnChanges {
   protected roleManagementPermissionService = inject(RoleManagementPermissionService)
 
   @Input() user: User | null
-  isUserPermissions = false
   ngOnInit(): void {
     this.userManagementUserRolesService.getAvailableRoles()
     this.roleManagementPermissionService.setApps()

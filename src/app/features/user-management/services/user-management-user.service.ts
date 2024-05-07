@@ -4,8 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { MessageHandlingService } from 'src/app/shared/services/message-handling.service'
 import { UserManagementHttpService } from './user-management-http.service'
-import { User, UserRole } from '../models/user.model'
-import { Permission } from '../../role-management/models/role.model'
+import { User } from '../models/user.model'
 
 @Injectable({
   providedIn: 'root'
